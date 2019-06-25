@@ -3,46 +3,50 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TicketRepository")
+ * @ORM\Table(name="ticket")
  */
 class Ticket
 {
     /**
+     * @var int
+     *
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="lastname", type="string", length=255)
      */
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="firstname", type="string", length=255)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="country", type="string", length=255)
      */
     private $country;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="birthdate", type="datetime")
      */
     private $birthdate;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="discount", type="boolean")
      */
     private $discount;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(name="price", type="float")
      */
     private $price;
 

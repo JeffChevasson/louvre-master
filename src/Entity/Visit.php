@@ -3,46 +3,48 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
+ * @ORM\Table(name="visit")
  */
 class Visit
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="invoicedate", type="datetime")
      */
     private $invoicedate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="visitedate", type="datetime")
      */
     private $visitedate;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="type", type="integer")
      */
     private $type;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="nbticket", type="integer")
      */
     private $nbticket;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="totalamount", type="integer")
      */
     private $totalamount;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="bookingcode", type="integer")
      */
     private $bookingcode;
 

@@ -1,12 +1,64 @@
+{# template/base.html.twig#}
+
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>{% block title %}Billetterie du Musée du Louvre{% endblock %}</title>
+
+    {% block stylesheets %}
+        {# On charge le CSS de bootstrap depuis le site directement #}
+        <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css')}}" >
+        <script src="{{ asset('assets/jquery-3.2.1.slim_.min_.js') }}"></script>
+        <script src="{{ asset('assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    {% endblock %}
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="jumbotron">
+        <div id="header">
+
+            <h1>Bienvenue sur la billeterie du musée du Louvre</h1>
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div id="content" class="col-lg-3">
+            <div id="menu">
+                <ul>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Languages</a></li>
+                    <ul>
+                        <li><a href="#">Français</a></li>
+                        <li><a href="#">English</a></li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+
+
+
+        <div id="content" class="col-lg-9">
+            {% block body %}
+            {% endblock %}
+        </div>
+
+    </div>>
+        <hr>
+
+    <footer>
+        <p>texte à définir</p>
+    </footer>
+</div>
+
+</body>
 </html>
