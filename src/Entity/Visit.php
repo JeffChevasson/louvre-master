@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
@@ -20,31 +20,38 @@ class Visit
 
     /**
      * @ORM\Column(name="invoicedate", type="datetime")
+     * @Assert\NotNull()
      */
     private $invoicedate;
 
     /**
      * @ORM\Column(name="visitedate", type="datetime")
+     * @Assert\NotNull()
      */
     private $visitedate;
 
     /**
      * @ORM\Column(name="type", type="integer")
+     * @Assert\NotNull()
+     * @Assert\NotNull()
      */
     private $type;
 
     /**
      * @ORM\Column(name="nbticket", type="integer")
+     * @Assert\NotNull()
      */
     private $nbticket;
 
     /**
      * @ORM\Column(name="totalamount", type="integer")
+     * @Assert\NotNull()
      */
     private $totalamount;
 
     /**
      * @ORM\Column(name="bookingcode", type="integer")
+     * @Assert\NotNull()
      */
     private $bookingcode;
 

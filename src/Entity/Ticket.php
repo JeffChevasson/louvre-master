@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TicketRepository")
@@ -22,31 +23,37 @@ class Ticket
 
     /**
      * @ORM\Column(name="lastname", type="string", length=255)
+     * @Assert\NotNull()
      */
     private $lastname;
 
     /**
      * @ORM\Column(name="firstname", type="string", length=255)
+     * @Assert\NotNull()
      */
     private $firstname;
 
     /**
      * @ORM\Column(name="country", type="string", length=255)
+     * @Assert\NotNull()
      */
     private $country;
 
     /**
      * @ORM\Column(name="birthdate", type="datetime")
+     * @Assert\NotNull()
      */
     private $birthdate;
 
     /**
      * @ORM\Column(name="discount", type="boolean")
+     * @Assert\NotNull()
      */
     private $discount;
 
     /**
      * @ORM\Column(name="price", type="float")
+     * @Assert\NotNull()
      */
     private $price;
 
@@ -126,4 +133,17 @@ class Ticket
 
         return $this;
     }
+    public function setVisit(Visit $visit)
+    {
+        $this->visit = $visit;
+        return $this;
+     }
+
+    /**
+     * @return mixed
+     */
+    public function getVisit()
+     {
+         return $this->visit;
+     }
 }
