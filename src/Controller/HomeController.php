@@ -23,6 +23,9 @@ class HomeController extends AbstractController
 
 
     /**
+     * page 1 Accueil
+     *
+     * @Route("/", name="home", methods={"GET"})
      * @return Response
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -36,7 +39,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * page 2 choix des billets
+     * page 2 choix des billets (entité Visit)
      *
      * @Route("/billets", name="billets", methods={"GET"})
      * @throws \Twig\Error\LoaderError
@@ -51,28 +54,28 @@ class HomeController extends AbstractController
     }
 
     /**
-     * page 3 identification des visiteurs
+     * page 3 identification des visiteurs (entité Identify)
      *
      * @Route("/identification", name="identification")
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function identifyAction()
+    public function identifyAction(): Response
     {
-        return new Response($this->twig->render('frontend/tickets.html.twig'));
+        return new Response($this->twig->render('frontend/identify.html.twig'));
     }
 
     /**
-     * page 4 coordonnées de l'acheteur
+     * page 4 coordonnées de l'acheteur (entité Customer)
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      * @Route("/customer", name="customer")
      */
-    public function customerAction()
+    public function customerAction(): Response
     {
-        //
+        return new Response($this->twig->render('frontend/customer.html.twig'));
     }
 
     /**
@@ -83,9 +86,9 @@ class HomeController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function payAction()
+    public function payAction(): Response
     {
-        //
+        return new Response($this->twig->render('frontend/payment.html.twig'));
     }
 
     /**
@@ -96,9 +99,9 @@ class HomeController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function confirmationAction()
+    public function confirmationAction(): Response
     {
-        //
+        return new Response($this->twig->render('frontend/paymentconfirmation.html.twig'));
     }
 
     /**
@@ -109,9 +112,9 @@ class HomeController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function contactAction()
+    public function contactAction(): Response
     {
-        //
+        return new Response($this->twig->render('frontend/contact.html.twig'));
     }
 
 }
