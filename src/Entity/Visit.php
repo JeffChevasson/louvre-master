@@ -12,6 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Visit
 {
     /**
+     * @var int
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
@@ -19,27 +21,33 @@ class Visit
     private $id;
 
     /**
+          *
      * @ORM\Column(name="invoicedate", type="datetime")
+     * @Assert\DateTime
      * @Assert\NotNull()
      */
     private $invoicedate;
 
     /**
+          *
      * @ORM\Column(name="visitedate", type="datetime")
      * @Assert\NotNull()
+     * @Assert\DateTime()
      */
     private $visitedate;
 
     /**
      * @ORM\Column(name="type", type="integer")
      * @Assert\NotNull()
-     * @Assert\NotNull()
+     *
      */
     private $type;
 
     /**
+     *
+     *
      * @ORM\Column(name="nbticket", type="integer")
-     * @Assert\NotNull()
+     * @Assert\Range(min="1", max="20")
      */
     private $nbticket;
 

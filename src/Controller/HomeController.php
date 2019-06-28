@@ -3,6 +3,7 @@ namespace App\Controller;
 
 
 
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,6 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 use App\Form\VisitType;
 use App\Entity\Visit;
+
+
+
 
 
 class HomeController extends AbstractController
@@ -44,7 +48,7 @@ class HomeController extends AbstractController
     /**
      * page 2 choix des billets (entité Visit)
      *
-     * @Route("/billets", name="billets", methods={"GET"})
+     * @Route("/billets", name="billets", methods={"GET" , "POST"})
      * @param Request $request
      * @return Response
      */
@@ -59,6 +63,7 @@ class HomeController extends AbstractController
         //Si la requête est en POST
         if($request->isMethod('POST'))
         {
+            $visit->setInvoicedate(new \DateTime());
             //On fait le lien requête->formulaire
             // Désormais, la variable $visit contient les valeurs entrées par le visiteur
             $form->handleRequest($request);
@@ -66,18 +71,19 @@ class HomeController extends AbstractController
             if($form->isValid())
             {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist();
+                $em->persist($visit);
                 $em->flush();
-                $request->getSession();
+                $request->getSession()->get('visit');
                 //On redirige l'acheteur vers la page 3 - identification des visiteurs
-                return $this->redirectToRoute('identification');
+                return $this->redirectToRoute ('identification');
             }
         }
         //On est en GET. On affiche le formulaire
         return $this->render('frontend/tickets.html.twig', array('form'=>$form->createView()));
+        }
 
         /**return new Response($this->twig->render('frontend/tickets.html.twig')); */
-    }
+
 
     /**
      * page 3 identification des visiteurs (entité Identify)
