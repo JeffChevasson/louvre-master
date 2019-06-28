@@ -1,6 +1,5 @@
 framework:
     secret: '%env(APP_SECRET)%'
-    validation: { enable_annotations: true }
     #csrf_protection: true
     #http_method_override: true
 
@@ -15,6 +14,3 @@ framework:
     #fragments: true
     php_errors:
         log: true
-
-
-
