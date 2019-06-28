@@ -7,11 +7,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
+ * Customer
+ * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
 class Customer
 {
     /**
+     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
@@ -19,37 +22,51 @@ class Customer
     private $id;
 
     /**
+     * @var string
      * @ORM\Column(name="firstname", type="string", length=255)
+     * @Assert\NotNull()
      */
     private $firstname;
 
     /**
+     * @var string
      * @ORM\Column(name="lastname", type="string", length=255)
+     * @Assert\NotNull()
      */
     private $lastname;
 
     /**
+     * @var string
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\NotNull()
      */
     private $email;
 
     /**
+     * @var string
      * @ORM\Column(name="address", type="string", length=255)
+     * @Assert\NotNull()
      */
     private $address;
 
     /**
+     * @var string
      * @ORM\Column(name="postcode", type="string", length=255)
+     * @Assert\NotNull()
      */
     private $postcode;
 
     /**
+     * @var string
      * @ORM\Column(name="city", type="string", length=255)
+     * @Assert\NotNull()
      */
     private $city;
 
     /**
+     * @var string
      * @ORM\Column(name="country", type="string", length=255)
+     * @Assert\NotNull()
      */
     private $country;
 
