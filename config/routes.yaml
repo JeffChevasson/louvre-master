@@ -4,7 +4,4 @@
 
 home:
   path: /
-  controller: App\Controller\HomeController::indexAction
-
-
-
+  controller: App\Controller\HomeController::index

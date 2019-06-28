@@ -1,9 +1,9 @@
 {# template/Frontend/index.html.twig#}
 
-{% extends "base.html.twig" %}
+{% extends "layout.html.twig" %}
 
 {% block title %}
-    Accueil
+    Accueil - {{ parent() }}
 {% endblock %}
 
 
@@ -34,6 +34,6 @@
     <p>Le billet acheté en ligne est nominatif. Un document d’identité peut vous
         être demandé à votre arrivée. Il est uniquement valable pour la prestation commandée en ligne.</p>
 
-    <a href="{{ path('billets') }}"><button>Achetez vos billets</button></a>
+    <button>Achetez vos billets</button>
 
 {% endblock %}
