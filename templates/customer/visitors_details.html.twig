@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Identification des visiteurs
+{% endblock %}
+
+
+{% block body %}
+    <div class="jumbotron">
+        <h2>Saisissez le détail pour chaque visiteur</h2>
+        <br>
+        {{ form_start(form) }}
+
+            {{ form(form) }}
+
+
+        <input type="submit" class="btn btn btn-primary" value="Valider">
+       {{ form_end(form) }}
+
+        <br/>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Récapitulatif
+{% endblock %}
+
+
+{% block body %}
+<div class="jumbotron">
+
+    <h2>Récap commande</h2>
+    <br/>
+{{ calculator }}
+
+<a class="btn btn btn-primary" href="{{ path('payment') }}">allez au paiement</a>
+
+
+</div>
+{% endblock %}

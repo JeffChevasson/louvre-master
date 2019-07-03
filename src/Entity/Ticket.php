@@ -50,6 +50,12 @@ class Ticket
      */
     private $price;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Visit", inversedBy="tickets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $visit;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,12 +97,12 @@ class Ticket
         return $this;
     }
 
-    public function getBirthdate(): ?\DateTimeInterface
+    public function getBirthdate(): ?\DateTime
     {
         return $this->birthdate;
     }
 
-    public function setBirthdate(\DateTimeInterface $birthdate): self
+    public function setBirthdate(\DateTime $birthdate): self
     {
         $this->birthdate = $birthdate;
 
