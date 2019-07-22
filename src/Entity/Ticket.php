@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TicketRepository")
@@ -51,10 +50,11 @@ class Ticket
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Visit", inversedBy="tickets")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="Visit", inversedBy="tickets",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $visit;
+
 
     public function getId(): ?int
     {
@@ -129,6 +129,18 @@ class Ticket
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getVisit(): ?Visit
+    {
+        return $this->visit;
+    }
+
+    public function setVisit(?Visit $visit): self
+    {
+        $this->visit = $visit;
 
         return $this;
     }

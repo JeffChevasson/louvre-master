@@ -16,7 +16,7 @@ class VisitType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('visitedate', DateType::class, [
-                'label' => 'Date de votre visite :',
+                'label' => 'Date de visite :',
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['class' => 'datepicker'],
@@ -29,16 +29,12 @@ class VisitType extends AbstractType
                     'Billet demi-journée (à partir de 14h)' => 1
                 ],
                 'label' => 'Types de billets :',
-                'expanded' => false,
+                'expanded' => true,
                 'multiple' => false,
                 'required' => true
             ])
             ->add('nbticket', ChoiceType::class, [
-                'choices' => [
-                    '1' => 0, '2' => 1, '3' => 2, '4' => 3, '5' => 4, '6' => 5, '7' => 6, '8' => 7, '9' => 10, '10' => 9,
-                    '11' => 10, '12' => 11, '13' => 12, '14' => 13, '15' => 14, '16' => 15, '17' => 16, '18' => 17,
-                    '19' => 18, '20' => 19
-                ],
+                'choices' => array_combine(\range(1,20), \range(1,20)),
                 'label' => 'Nombre de billets :',
                 'required' => true
             ]);

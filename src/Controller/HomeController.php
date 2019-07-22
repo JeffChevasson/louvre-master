@@ -6,16 +6,20 @@ namespace App\Controller;
     use App\Entity\Visit;
     use App\Form\ContactType;
     use App\Form\CustomerType;
+    use App\Form\TicketType;
     use App\Form\VisitTicketsType;
     use App\Form\VisitType;
+    use App\Services\checkNbTickets;
+    use App\Services\EmailService;
     use App\Services\PriceCalculator;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\Session\SessionInterface;
     use Symfony\Component\Routing\Annotation\Route;
-    use Twig\Environment;
-
+    use Twig\Error\LoaderError;
+    use Twig\Error\RuntimeError;
+    use Twig\Error\SyntaxError;
 
 
     class HomeController extends AbstractController
@@ -31,8 +35,7 @@ namespace App\Controller;
          */
         public function indexAction()
         {
-
-            return new Response($this->twig->render('home/index.html.twig'));
+            return $this->render('home/index.html.twig');
 
 
         }
@@ -43,13 +46,34 @@ namespace App\Controller;
          * @Route("/billets", name="tickets", methods={"GET" , "POST"})
          * @param Request $request
          * @return Response
-         * @throws \Exception
          */
-        public function orderAction(Request $request)
+        public function orderAction(Request $request): Response
         {
 
-            $visit = $request->getSession()->get('visit');
-            //
+
+
+            //A partir du formulaire on le génère
+            $form = $this->createForm(VisitType::class);
+            $form->handleRequest($request);
+            //si la requête est en POST
+
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                $visit = $form->getData();
+
+                for ($i = 1; $i <= $visit->getNbticket() ;$i++ ){
+
+                    $visit->addTicket(new Ticket());
+                }
+                $request->getSession()->set('visit', $visit);
+
+                //On redirige l'acheteur vers la page 5
+                return $this->redirectToRoute('visitors');
+
+            }
+
+            //On est en GET. On affiche le formulaire
+            return $this->render('ticket/tickets.html.twig', array('form'=>$form->createView()));
         }
 
 
@@ -57,9 +81,10 @@ namespace App\Controller;
          * page 3 identification des visiteurs (entité Identify)
          *
          * @Route("/identification", name="visitors", methods={"GET" , "POST"})
-         * @param \App\Controller\Request $request
+         * @param Request $request
          * @param SessionInterface $session
          * @param PriceCalculator $calculator
+         * @param Ticket $ticket
          * @return Response
          */
         public function identifyAction(Request $request, SessionInterface $session, PriceCalculator $calculator): Response
@@ -67,22 +92,18 @@ namespace App\Controller;
             //On crée un nouvel objet Visit
             $visit = $session->get('visit');
 
-            //On appelle le formulaire TicketType
+            //On appelle le formulaire VisitTicketType
 
             $form = $this->createForm(VisitTicketsType::class, $visit);
             $form->handleRequest($request);
 
+            if ($form->isSubmitted() && $form->isValid())
+            {
+             //$ticket = $form->getData ();
+             // TODO 2       calculer le  prix de la visit et des tickets
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                // TODO 2       calculer le  prix de la visit et des tickets
                 $calculator->computePrice($visit);
-                return $this->render('customer/order_summary.html.twig',
-                    [
-                        'calculator' => $calculator
-                    ]);
-
-
-            }
+                        }
 
             // on est en GET. On affiche le formulaire
             return $this->render(('customer/visitors_details.html.twig'), [
@@ -95,7 +116,7 @@ namespace App\Controller;
         /** page 4 coordonnées de l'acheteur (entité Customer)
          * @param $request
          * @return Response
-         * @Route("/customer", name="billing_details", methods={"GET" , "POST"}))
+         * @Route("/customer", name="billing_details", methods={"GET" , "POST"})
          */
         public function customerAction(Request $request): Response
         {
@@ -110,9 +131,8 @@ namespace App\Controller;
             $form->handleRequest($request);
             //si la requête est en POST
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                //On vérifie que les données entreées sont valides
-                if ($form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid())
+            {
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($customer);
                     $em->flush();
@@ -123,7 +143,7 @@ namespace App\Controller;
                     return $this->redirectToRoute('order_summary');
 
 
-                }
+
             }
             //Si on est en GET. On affiche le formulaire
             return $this->render(('customer/billing_details.html.twig'),
@@ -145,7 +165,7 @@ namespace App\Controller;
         public
         function summaryAction(): Response
         {
-            return new Response($this->twig->render('customer/order_summary.html.twig'));
+            return new Response($this->render('customer/order_summary.html.twig'));
 
         }
 
@@ -153,14 +173,17 @@ namespace App\Controller;
         /**
          * page 6 paiement
          * @Route("/paiement", name="payment")
-         * @throws \Twig\Error\LoaderError
-         * @throws \Twig\Error\RuntimeError
-         * @throws \Twig\Error\SyntaxError
+         * @param Request $request
+         * @return Response
          */
         public
-        function payAction(): Response
+        function payAction(Request $request): Response
         {
-            return new Response($this->twig->render('payment/payment.html.twig'));
+            if($request->getMethod () === "POST")
+            {
+
+            }
+            return new Response($this->render('payment/payment.html.twig'));
         }
 
 
@@ -174,7 +197,7 @@ namespace App\Controller;
         public
         function confirmationAction(): Response
         {
-            return new Response($this->twig->render('payment/payment_confirmation.html.twig'));
+            return new Response($this->render('payment/payment_confirmation.html.twig'));
 
 
         }
@@ -184,9 +207,10 @@ namespace App\Controller;
          * page 8 contact
          * @Route("/contact", name="contact")
          * @param Request $request
+         * @param EmailService $emailService
          * @return Response
          */
-        public function contactAction(Request $request): Response
+        public function contactAction(Request $request, EmailService $emailService): Response
         {
             $form = $this->createForm(ContactType::class);
 
@@ -194,7 +218,19 @@ namespace App\Controller;
 
             if ($form->isSubmitted() && $form->isValid()) {
 
+                try {
+                    $emailService->sendMailContact($form->getData());
+                } catch (LoaderError $e) {
+                } catch (RuntimeError $e) {
+                } catch (SyntaxError $e) {
+                }
+
+                $this->addFlash('notice', 'message.conact.send');
+                return $this->redirectToRoute('home');
             }
+
+
+            return $this->render('contact/contact.html.twig', array('form'=>$form->createView()));
 
         }
 

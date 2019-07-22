@@ -17,25 +17,34 @@ class CustomerType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom : '
+                'label' => 'Prénom : ',
+                'required' => true
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom : '
+                'label' => 'Nom : ',
+                'required' => true
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email : '
+                'label' => 'Email : ',
+                'required' => true
             ])
             ->add('address', TextType::class, [
-                'label' => ' Adresse : '
+                'label' => ' Adresse : ',
+                'required' => false
             ])
             ->add('postcode', TextType::class, [
-                'label' => 'Code Postal : '
+                'label' => 'Code Postal : ',
+                'required' => false
             ])
             ->add('city', TextType::class, [
-                'label' => 'Ville : '
+                'label' => 'Ville : ',
+                'required' => false
             ])
             ->add('country', CountryType::class, [
-                'label' => 'Pays : '
+                'label' => 'Pays : ',
+                'preferred_choices' => [
+                    'FR'
+                ]
             ])
         ;
     }

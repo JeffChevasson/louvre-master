@@ -10,6 +10,11 @@ use App\Entity\Prices;
 
 class PriceCalculator
 {
+    /**
+     * @param Ticket $ticket
+     * @return int
+     * @throws \Exception
+     */
     public function computeTicketPrice(Ticket $ticket)
     {
         $price = 0;
@@ -53,18 +58,18 @@ class PriceCalculator
 
         return $price;
 
-
     }
 
     public function computePrice(Visit $visit)
     {
 
-        $total = 0;
+        $totalAmount = 0;
 
         foreach ($visit->getTickets() as $ticket){
-           $total += $this->computeTicketPrice($ticket);
-
+            $priceTicket = $this->computeTicketPrice($ticket);
+            $totalAmount += $priceTicket;
         }
-        $visit->setTotalamount($total);
+        $visit->setTotalAmount($totalAmount);
+        return $totalAmount;
     }
 }

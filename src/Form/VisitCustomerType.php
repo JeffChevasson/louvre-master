@@ -1,23 +1,25 @@
 <?php
 
+
 namespace App\Form;
 
-
-
-use App\Entity\Ticket;
+use Symfony\Component\Form\FormBuilderInterface;
 use App\Entity\Visit;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class VisitTicketsType extends AbstractType
+
+
+
+class VisitCustomerType extends  AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tickets', CollectionType::class,[
-                'entry_type' => TicketType::class
+            ->add('customer', CollectionType::class,[
+                'entry_type' => CustomerType::class
+
             ])
         ;
     }
@@ -25,9 +27,9 @@ class VisitTicketsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Visit::class,
+            'data_class' => Visit::class
+
+
         ]);
     }
 }
-
-

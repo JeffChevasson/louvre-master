@@ -8,16 +8,16 @@
 {% block body %}
     <div class="jumbotron">
         <h2>Saisissez le détail pour chaque visiteur</h2>
-        <br>
+
         {{ form_start(form) }}
 
-            {{ form(form) }}
-
+            {{ form_row(form) }}
 
         <input type="submit" class="btn btn btn-primary" value="Valider">
-       {{ form_end(form) }}
 
-        <br/>
+        {{ form_end(form) }}
+
+
 
     </div>
 {% endblock %}

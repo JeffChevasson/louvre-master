@@ -9,6 +9,29 @@
     <link rel="stylesheet" href="assets/css/contact.css">
     <div class="jumbotron" >
         Page contact
+        <br>
+        <br>
+
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+        {{ form_row(form.lastname) }} <br/>
+
+        {{ form_row(form.firstname) }} <br/>
+
+        {{ form_row(form.email) }}<br/>
+
+        {{ form_row(form.message) }}<br/>
+
+        <div class="row">
+            <div class="col-sm-1">
+            </div>
+
+            <div class="col-sm-11">
+                <button type="submit" class="btn btn-success">Envoyez</button>
+            </div>
+        </div>
+
+        {{ form_end(form) }}<br/>
     </div>
 
 {% endblock %}

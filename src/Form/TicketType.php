@@ -18,17 +18,22 @@ class TicketType extends AbstractType
         $builder
 
             ->add('lastname', TextType::class, [
-                'label' => 'Nom : '
+                'label' => 'Nom* : ',
+                'required' => true
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom : ' ])
+                'label' => 'Prénom* : ',
+                'required' => true
+            ])
 
             ->add('country', CountryType::class, [
-                'label' => 'Pays : '
+                'label' => 'Pays* : ',
+                'required' => true
             ])
             ->add('birthdate', BirthdayType::class, [
-                'label' => 'Date de naissance : '
-                ])
+                'label' => 'Date de naissance* : ',
+                'required' => true
+            ])
             ->add('discount', CheckboxType::class, [
                 'label' => 'Tarif réduit de 10 euros
                 - Tarif accordé sous certaines conditions (étudiant, employé du musée, d’un service du Ministère de la Culture, militaire…)',

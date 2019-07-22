@@ -25,3 +25,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Services\EmailService:
+        # arguments: ['@mailer', '@twig', '%mail_user%']
+        arguments:
+            $emailfrom: 'chevasson@hotmail.com'
+
