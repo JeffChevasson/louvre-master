@@ -10,8 +10,24 @@
         <h2>Paiement</h2>
 
         <br/>
+        <script src="https://js.stripe.com/v3/"></script>
 
-        <a class="btn btn btn-primary" href="{{ path('payment_confirmation') }}">Valider le paiement</a>
+        <form action="/charge" method="post" id="payment-form">
+            <div class="form-row">
+                <label for="card-element">
+                    Credit or debit card
+                </label>
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+
+                <!-- Used to display form errors. -->
+                <div id="card-errors" role="alert"></div>
+            </div>
+
+            <button class="btn btn btn-primary">Valider le paiement</button>
+        </form>
+
     </div>
 
 {% endblock %}

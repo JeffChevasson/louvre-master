@@ -174,15 +174,37 @@ namespace App\Controller;
          * page 6 paiement
          * @Route("/paiement", name="payment")
          * @param Request $request
+         * @param Visit $visit
          * @return Response
          */
         public
-        function payAction(Request $request): Response
-        {
+        function payAction(): Response
+
+      {
+          /**
+            //On crée un nouvel objet Visit
+            $visit = $session->get('visit');
+
             if($request->getMethod () === "POST")
             {
+                //Création de la charge - Stripe
+                $token = $request->request->get ('stripeToken');
 
+                //Chargement de la clé secète de Stripe
+                $secretkey = $this->getParameter ('stripe_secret_key');
+
+                \Stripe\Stripe::setApiKey('sk_test_Blup8XKxZ7cppLvxLgpzXbX000WHYCC6rQ');
+
+                $charge = \Stripe\Charge::create([
+                    'amount' => 999,
+                    'currency' => 'usd',
+                    'source' => 'tok_visa',
+                    'receipt_email' => 'jenny.rosen@example.com',
+                ]);
             }
+        * */
+
+
             return new Response($this->render('payment/payment.html.twig'));
         }
 
