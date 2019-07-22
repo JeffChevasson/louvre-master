@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 
+
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  * @ORM\Table(name="visit")
@@ -30,7 +32,7 @@ class Visit
 
     /**
      * @ORM\Column(name="visitedate", type="datetime")
-     *
+
      */
     private $visiteDate;
 

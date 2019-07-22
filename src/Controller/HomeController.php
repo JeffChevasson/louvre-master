@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+
     use App\Entity\Customer;
     use App\Entity\Ticket;
     use App\Entity\Visit;
@@ -251,9 +252,4 @@ namespace App\Controller;
                 return $this->redirectToRoute('home');
             }
 
-
-            return $this->render('contact/contact.html.twig', array('form'=>$form->createView()));
-
-        }
-
-    }
+}

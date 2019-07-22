@@ -133,6 +133,7 @@ class Ticket
         return $this;
     }
 
+
     public function getVisit(): ?Visit
     {
         return $this->visit;
@@ -144,4 +145,5 @@ class Ticket
 
         return $this;
     }
+
 }
