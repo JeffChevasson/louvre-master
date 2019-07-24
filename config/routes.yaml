@@ -1,5 +1,5 @@
 
 home:
   path: /
-  controller: App\Controller\HomeController::index
+  controller: App\Controller\HomeController::indexAction
 

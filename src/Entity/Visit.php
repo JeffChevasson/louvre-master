@@ -165,6 +165,7 @@ class Visit
         if (!$this->tickets->contains($ticket)) {
 
             $this->tickets->add($ticket);
+            $ticket->setVisit ($this);
         }
     }
 

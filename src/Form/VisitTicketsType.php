@@ -17,7 +17,8 @@ class VisitTicketsType extends AbstractType
     {
         $builder
             ->add('tickets', CollectionType::class,[
-                'entry_type' => TicketType::class
+                'entry_type' => TicketType::class,
+                'by_reference' =>false
             ])
         ;
     }

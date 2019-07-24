@@ -21,7 +21,7 @@ class PriceCalculator
         $birthday = $ticket->getBirthdate();
         $visit = $ticket->getVisit();
         $today = new \DateTime();
-        $age = date_diff($birthday, $today);
+        $age = date_diff($birthday, $today)->y;
         $discount = $ticket->getDiscount();
 
         if ($visit->getType() == Visit::TYPE_FULL_DAY)

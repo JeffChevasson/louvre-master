@@ -5,7 +5,9 @@
         "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "mollie/polyfill-libsodium": "^1.1",
         "sensio/framework-extra-bundle": "^5.1",
+        "stripe/stripe-php": "^6.40",
         "symfony/asset": "4.3.*",
         "symfony/console": "4.3.*",
         "symfony/dotenv": "4.3.*",
@@ -26,8 +28,7 @@
         "symfony/validator": "4.3.*",
         "symfony/web-link": "4.3.*",
         "symfony/yaml": "4.3.*",
-        "twbs/bootstrap": "4.0.0",
-        "ext-libsodium": "1.0.8"
+        "twbs/bootstrap": "4.0.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.2",
@@ -36,8 +37,8 @@
         "symfony/phpunit-bridge": "^4.3",
         "symfony/profiler-pack": "*",
         "symfony/test-pack": "*",
-        "symfony/web-server-bundle": "4.3.*",
-        "ext-libsodium": "1.0.8"
+        "symfony/web-server-bundle": "4.3.*"
+
     },
     "config": {
         "preferred-install": {
