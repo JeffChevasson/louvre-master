@@ -59,9 +59,9 @@ class EmailService
     public function sendMailContact($data)
     {
         $message = (new \Swift_Message())
-                    ->setFrom($data['email'])
+            ->setFrom($data['email'])
             ->setTo($this->emailfrom)
-            ->setBody($this->templating->render('email/contact.html.twig', [
+            ->setBody($this->templating->render('contact/contact.html.twig', [
                 'data' => $data
             ]))
             ->setContentType('text/html');
