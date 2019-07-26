@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validators\Constraints as LouvreAssert;
+use App\Validator\Constraints as LouvreAssert;
 
 
 
@@ -14,8 +14,8 @@ use App\Validators\Constraints as LouvreAssert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  * @ORM\Table(name="visit")
- * @LouvreAssert\LimitedReservationAfter2PM(hour="14", ticket="Billet journée")
- * @LouvreAssert\OneThousandTickets(nbTicketsByDay="1000")
+ *
+ *
  */
 class Visit
 {
@@ -51,7 +51,7 @@ class Visit
 
     /**
      * @ORM\Column(name="type", type="integer")
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
 
      */
     private $type;

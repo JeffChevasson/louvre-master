@@ -67,7 +67,9 @@ class HomeController extends AbstractController
 
                 $visit->addTicket (new Ticket());
             }
+
             $request->getSession ()->set ('visit', $visit);
+
 
             //On redirige l'acheteur vers la page 5
             return $this->redirectToRoute ('visitors');
@@ -134,9 +136,7 @@ class HomeController extends AbstractController
         //si la requête est en POST
 
         if ($form->isSubmitted () && $form->isValid ()) {
-            $em = $this->getDoctrine ()->getManager ();
-            $em->persist ($customer);
-            $em->flush ();
+
 
             $request->getSession ()->get ('billing_details');
 
@@ -212,11 +212,17 @@ class HomeController extends AbstractController
             Stripe::setApiKey('pk_test_Uszqz9OBUHXeD3RqmeEjCt5O00sC6IRWXN');
 
             $charge = Charge::create([
-                'amount' => 150,
+                'amount' => $visit->getTotalAmount($visit),
                 'currency' => 'eur',
                 'source' => 'tok_visa',
                 'receipt_email' => 'jchevasson@gmail.com',
+                'description' => 'Réservation sur la billetterie du Musée du Louvre'
             ]);
+            // enregistrement dans la base
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($visit);
+            $em->flush();
+            $this->addFlash('notice', 'Paiement enregistré');
         }
 
         return new Response($this->renderView ('payment/payment.html.twig'));
