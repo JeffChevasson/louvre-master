@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validators\Constraints as LouvreAssert;
 
 
 
@@ -13,55 +14,78 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  * @ORM\Table(name="visit")
+ * @LouvreAssert\LimitedReservationAfter2PM(hour="14", ticket="Billet journée")
+ * @LouvreAssert\OneThousandTickets(nbTicketsByDay="1000")
  */
 class Visit
 {
     const TYPE_FULL_DAY = 0;
     const TYPE_HALF_DAY = 1;
+    const NB_TICKET_MAX_DAY = 1000;
 
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
+     *
      */
     private $id;
 
     /**
      * @ORM\Column(name="invoicedate", type="datetime")
+     * @Assert\DateTime()
      */
     private $invoiceDate;
 
     /**
      * @ORM\Column(name="visitedate", type="datetime")
+     * @Assert\Range(
+     *     min = "today",
+     *     max = "+1 year",
+     *     minMessage = "Vous devez choisir une date de visite supérieure ou égale à la date du jour",
+     *     maxMessage = "La réservation est uniquement sur l'année en cours")
+     * @Assert\DateTime()
 
      */
     private $visiteDate;
 
     /**
      * @ORM\Column(name="type", type="integer")
+     * @Assert\NotBlank()
+
      */
     private $type;
 
     /**
      * @ORM\Column(name="nbticket", type="integer")
+     * @Assert\NotNull()
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 20,
+     *      minMessage = "vous devez saisir au moins 1 ticket",
+     *      maxMessage = "vous ne pouvez pas commander plus de 20 tickets"
+     * )
      */
     private $nbTicket;
 
 
     /**
      * @ORM\Column(name="totalamount", type="integer")
+     *
      */
     private $totalAmount;
 
 
     /**
      * @ORM\Column(name="bookingcode", type="integer")
+     *
      */
     private $bookingCode;
 
     /**
      * @ORM\ManyToOne(targetEntity="Customer", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     *
      */
     private $customer;
 
@@ -69,6 +93,7 @@ class Visit
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Ticket", mappedBy="visit",cascade={"persist"})
+
      *
      */
     private $tickets;

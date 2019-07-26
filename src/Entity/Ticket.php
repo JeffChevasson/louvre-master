@@ -22,21 +22,32 @@ class Ticket
 
     /**
      * @ORM\Column(name="lastname", type="string", length=255)
+     * @Assert\NotBlank(message="Vous devez saisir un nom de famille")
+     * @Assert\Regex(
+     *     pattern="/[-a-zA-Zéèàêâùïüë]/",
+     *     message="Le nom saisi est incorrect")
      */
     private $lastname;
 
     /**
      * @ORM\Column(name="firstname", type="string", length=255)
+     * @Assert\NotBlank(message="Vous devez saisir un prénom")
+     * @Assert\Regex(
+     *     pattern="/[-a-zA-Zéèàêâùïüë]/",
+     *     message="Le prénom saisi est incorrect")
      */
     private $firstname;
 
     /**
      * @ORM\Column(name="country", type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $country;
 
     /**
      * @ORM\Column(name="birthdate", type="datetime")
+     * @Assert\LessThan("today")
+     * @Assert\Date()
      */
     private $birthdate;
 
@@ -52,7 +63,8 @@ class Ticket
 
     /**
      * @ORM\ManyToOne(targetEntity="Visit", inversedBy="tickets",cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $visit;
 
