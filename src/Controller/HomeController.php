@@ -7,7 +7,6 @@ use App\Entity\Ticket;
 use App\Entity\Visit;
 use App\Form\ContactType;
 use App\Form\CustomerType;
-use App\Form\TicketType;
 use App\Form\VisitTicketsType;
 use App\Form\VisitType;
 use App\Services\checkNbTickets;
@@ -22,6 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use Symfony\Component\Form\FormView;
 
 
 
@@ -261,11 +261,9 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
             $emailService->sendMailContact($form->getData());
-            $this->addFlash('notice', 'message.contact.send');
+            $this->addFlash('notice', 'Votre message a bien été envoyé');
             return $this->redirect($this->generateUrl('home'));
         }
-        return $this->render('contact/contact.html.twig', [
-            'form'=>$form->createView()
-        ]);
+        return $this->render('contact/contact.html.twig', array('form'=>$form->createView()));
     }
 }
