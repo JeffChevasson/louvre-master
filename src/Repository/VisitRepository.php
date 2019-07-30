@@ -19,6 +19,17 @@ class VisitRepository extends ServiceEntityRepository
         parent::__construct($registry, Visit::class);
     }
 
+    public function countNbTicketsOnThisDate(?\DateTimeInterface $visitDate)
+    {
+        $qb = $this->createQueryBuilder('v');
+        $qb->select('sum(v.nbticket)')
+            ->where('v.visitedate = :visitedate')
+            ->setParameter('visitedate', $visitDate);
+        return $qb
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     // /**
     //  * @return Visit[] Returns an array of Visit objects
     //  */

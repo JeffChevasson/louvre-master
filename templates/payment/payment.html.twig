@@ -46,7 +46,7 @@
         <h2>Paiement</h2>
         <br/>
         <script src="https://js.stripe.com/v3/"></script>
-        <form action="/confirmation_du_paiement" method="post" id="payment-form">
+        <form action="{{ path 'payment' }}" method="post" id="payment-form">
             <div class="form-row">
                 <label for="card-element">
                     Carte de paiement
@@ -74,7 +74,7 @@
 
     <script>
         // Create a Stripe client.
-        var stripe = Stripe('pk_test_Uszqz9OBUHXeD3RqmeEjCt5O00sC6IRWXN');
+        var stripe = Stripe('{{ stripe_public_key }}');
 
         // Create an instance of Elements.
         var elements = stripe.elements();

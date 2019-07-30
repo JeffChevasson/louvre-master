@@ -40,6 +40,8 @@ class PublicHolidaysService
         return $publicHolidays;
     }
 
+
+    // TODO voir pour virer
     public function getPublicHolidaysOnTheseTwoYears()
     {
         $publicHolidayOfCurrentYear = $this->getPublicHolidaysOfThisYear ();
@@ -52,16 +54,9 @@ class PublicHolidaysService
 
     public function checkIsHoliday(\DateTime $day)
     {
-        $publicHolidays = $this->getPublicHolidaysOfThisYear ($year = null);
+        $publicHolidays = $this->getPublicHolidaysOfThisYear ($day->format ('Y'));
 
-        if(in_array ($day->format ('Y-m-d'), $publicHolidays))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return in_array ($day->format ('Y-m-d'), $publicHolidays);
     }
 
 

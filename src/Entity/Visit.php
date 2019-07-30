@@ -14,14 +14,18 @@ use App\Validator\Constraints as LouvreAssert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  * @ORM\Table(name="visit")
- *
- *
+ * @LouvreAssert\OverLimitSoldTickets(nbTicketsByDay="Visit::NB_TICKET_MAX_DAY")
+ * @LouvreAssert\LimitedReservation(hour="14")
  */
+
+
 class Visit
 {
     const TYPE_FULL_DAY = 0;
     const TYPE_HALF_DAY = 1;
     const NB_TICKET_MAX_DAY = 1000;
+
+    const LIMITED_HOUR_TODAY = 16;
 
     /**
      * @ORM\Id()
@@ -38,12 +42,14 @@ class Visit
     private $invoiceDate;
 
     /**
+     *
      * @ORM\Column(name="visitedate", type="datetime")
      * @Assert\Range(
      *     min = "today",
      *     max = "+1 year",
      *     minMessage = "Vous devez choisir une date de visite supérieure ou égale à la date du jour",
      *     maxMessage = "La réservation est uniquement sur l'année en cours")
+     *
      * @Assert\DateTime()
 
      */
@@ -51,7 +57,7 @@ class Visit
 
     /**
      * @ORM\Column(name="type", type="integer")
-     * @Assert\NotNull()
+     * @Assert\NotBlank
 
      */
     private $type;
@@ -77,7 +83,7 @@ class Visit
 
 
     /**
-     * @ORM\Column(name="bookingcode", type="integer")
+     * @ORM\Column(name="bookingcode", type="integer", unique=true)
      *
      */
     private $bookingCode;

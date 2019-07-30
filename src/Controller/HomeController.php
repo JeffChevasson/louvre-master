@@ -12,6 +12,7 @@ use App\Form\VisitType;
 use App\Services\checkNbTickets;
 use App\Services\EmailService;
 use App\Services\PriceCalculator;
+use Stripe\Charge;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -209,20 +210,30 @@ class HomeController extends AbstractController
             //Chargement de la clé secrète de Stripe
             $secretkey = $this->getParameter ('stripe_secret_key');
 
-            Stripe::setApiKey('pk_test_Uszqz9OBUHXeD3RqmeEjCt5O00sC6IRWXN');
+            Stripe::setApiKey($secretkey);
+            try{
+                $charge = Charge::create([
+                    'amount' => $visit->getTotalAmount($visit),
+                    'currency' => 'eur',
+                    'source' => $token,
+                    'description' => 'Réservation sur la billetterie du Musée du Louvre'
+                ]);
 
-            $charge = Charge::create([
-                'amount' => $visit->getTotalAmount($visit),
-                'currency' => 'eur',
-                'source' => 'tok_visa',
-                'receipt_email' => 'jchevasson@gmail.com',
-                'description' => 'Réservation sur la billetterie du Musée du Louvre'
-            ]);
+
+                //$charge['id'] <= ref stripe de commande
             // enregistrement dans la base
             $em = $this->getDoctrine()->getManager();
             $em->persist($visit);
             $em->flush();
             $this->addFlash('notice', 'Paiement enregistré');
+
+            //Redirection
+
+
+            }catch(\Exception $e){
+
+                $this->addFlash('warning', 'Paiement échoué');
+            }
         }
 
         return new Response($this->renderView ('payment/payment.html.twig'));
