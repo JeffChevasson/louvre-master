@@ -9,7 +9,6 @@ use App\Form\ContactType;
 use App\Form\CustomerType;
 use App\Form\VisitTicketsType;
 use App\Form\VisitType;
-use App\Services\checkNbTickets;
 use App\Services\EmailService;
 use App\Services\PriceCalculator;
 use Stripe\Charge;
@@ -22,7 +21,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use Symfony\Component\Form\FormView;
+use App\Controller\ContactController;
+
 
 
 
@@ -72,7 +72,7 @@ class HomeController extends AbstractController
             $request->getSession ()->set ('visit', $visit);
 
 
-            //On redirige l'acheteur vers la page 5
+            //On redirige l'acheteur vers la page 3
             return $this->redirectToRoute ('visitors');
 
         }
@@ -104,9 +104,9 @@ class HomeController extends AbstractController
 
         if ($form->isSubmitted () && $form->isValid ()) {
 
-            $calculator->computePrice($visit);
+            $calculator->computePrice ($visit);
 
-            //On redirige l'acheteur vers la page 5
+            //On redirige l'acheteur vers la page 4
             return $this->redirectToRoute ('billing_details');
         }
 
@@ -123,13 +123,14 @@ class HomeController extends AbstractController
      * @return Response
      * @Route("/customer", name="billing_details", methods={"GET" , "POST"})
      */
-    public function customerAction(Request $request): Response
+    public function customerAction(SessionInterface $session, Request $request): Response
     {
         //On crée un nouvel objet Customer
         $customer = new Customer();
+        $visit = $session->get ('visit');
+        $visit->setCustomer ($customer);
 
         //On appelle le formulaire CustomerType
-        $request->getSession ()->set ('customer', $customer);
 
         //A partir du formulaire on le génère
         $form = $this->createForm (CustomerType::class, $customer);
@@ -137,10 +138,6 @@ class HomeController extends AbstractController
         //si la requête est en POST
 
         if ($form->isSubmitted () && $form->isValid ()) {
-
-
-            $request->getSession ()->get ('billing_details');
-
             //On redirige l'acheteur vers la page 5
             return $this->redirectToRoute ('order_summary');
 
@@ -169,22 +166,15 @@ class HomeController extends AbstractController
         //On crée un nouvel objet Visit
         $visit = $session->get ('visit');
 
-       $totalprice = $visit->getTotalAmount();
-
-        //var_dump ($totalprice);
-        //die();
-
-        //On redirige l'acheteur vers la page 5
+        //On redirige l'acheteur vers la page 6
         /** return $this->redirectToRoute ('payment'); */
 
         // on est en GET. On affiche le formulaire
         return $this->render ('customer/order_summary.html.twig', [
-            'totalprice' => $totalprice
+            'visit' => $visit
         ]);
 
-        }
-
-
+    }
 
 
     /**
@@ -201,39 +191,39 @@ class HomeController extends AbstractController
 
     {
         //On crée un nouvel objet Visit
-        $visit = $session->get('visit');
-        if($request->getMethod () === "POST")
-        {
+        $visit = $session->get ('visit');
+        if ($request->getMethod () === "POST") {
             //Création de la charge - Stripe
             $token = $request->request->get ('stripeToken');
 
             //Chargement de la clé secrète de Stripe
             $secretkey = $this->getParameter ('stripe_secret_key');
 
-            Stripe::setApiKey($secretkey);
-            try{
-                $charge = Charge::create([
-                    'amount' => $visit->getTotalAmount($visit),
-                    'currency' => 'eur',
-                    'source' => $token,
-                    'description' => 'Réservation sur la billetterie du Musée du Louvre'
-                ]);
+            Stripe::setApiKey ($secretkey);
+//            try{
+            $charge = Charge::create ([
+                'amount' => $visit->getTotalAmount ($visit) * 100,
+                'currency' => 'eur',
+                'source' => $token,
+                'description' => 'Réservation sur la billetterie du Musée du Louvre'
+            ]);
+            $visit->setBookingCode ($charge['id']);
 
-
-                //$charge['id'] <= ref stripe de commande
             // enregistrement dans la base
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($visit);
-            $em->flush();
-            $this->addFlash('notice', 'Paiement enregistré');
+            $em = $this->getDoctrine ()->getManager ();
+            $em->persist ($visit);
+            $em->flush ();
+            $this->addFlash ('notice', 'Paiement enregistré');
+
+            return $this->redirectToRoute ('payment_confirmation');
+
+//            }catch(\Exception $e){
+//
+//                $this->addFlash('warning', 'Paiement échoué');
+//            }
 
             //Redirection
-
-
-            }catch(\Exception $e){
-
-                $this->addFlash('warning', 'Paiement échoué');
-            }
+            //On redirige l'acheteur vers la page 7
         }
 
         return new Response($this->renderView ('payment/payment.html.twig'));
@@ -243,38 +233,29 @@ class HomeController extends AbstractController
     /**
      * page 7 confirmation
      * @Route("/confirmation_du_paiement", name="payment_confirmation")
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @param SessionInterface $session
+     * @return Response
      */
     public
-    function confirmationAction(): Response
+    function confirmationAction(SessionInterface $session): Response
     {
-        return new Response($this->renderView('payment/payment_confirmation.html.twig'));
 
+        //On crée un nouvel objet Visit
+        $visit = $session->get ('visit');
+
+        // on est en GET. On affiche le formulaire
+        return $this->render ('payment/payment_confirmation.html.twig', [
+            'visit' => $visit
+        ]);
 
     }
-
-
     /**
-     * page 8 contact
-     * @Route("/contact", name="contact")
-     * @param Request $request
-     * @param EmailService $emailService
+     * page 9 RGPD
+     * @Route("/rgpd", name="rgpd")
      * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
-    public function contactAction(Request $request, EmailService $emailService)
+    public function rgpdAction(): Response
     {
-        $form = $this->createForm(ContactType::class);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
-            $emailService->sendMailContact($form->getData());
-            $this->addFlash('notice', 'Votre message a bien été envoyé');
-            return $this->redirect($this->generateUrl('home'));
-        }
-        return $this->render('contact/contact.html.twig', array('form'=>$form->createView()));
+        return $this->render ('information/rgpd.html.twig');
     }
 }

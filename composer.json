@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^1.6",
+        "endroid/qr-code-bundle": "^3.3",
         "mollie/polyfill-libsodium": "^1.1",
         "sensio/framework-extra-bundle": "^5.1",
         "stripe/stripe-php": "^6.40",
