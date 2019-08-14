@@ -15,16 +15,16 @@ use Twig\Error\SyntaxError;
 
 class ContactController extends AbstractController
 {
-/**
- * page 8 contact
- * @Route("/contact", name="contact")
- * @param Request $request
- * @param EmailService $emailService
- * @return Response
- * @throws LoaderError
- * @throws RuntimeError
- * @throws SyntaxError
- */
+    /**
+     * page 8 contact
+     * @Route("/contact", name="contact")
+     * @param Request $request
+     * @param EmailService $emailService
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
 public function contactAction(Request $request, EmailService $emailService)
 {
     $form = $this->createForm(ContactType::class);

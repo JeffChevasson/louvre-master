@@ -29,5 +29,9 @@ services:
     App\Services\EmailService:
         # arguments: ['@mailer', '@twig', '%mail_user%']
         arguments:
-            $emailfrom: 'chevasson@hotmail.com'
+            $emailfrom: 'jchevasson@gmail.com'
 
+    App\Listener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+        arguments: ['@router', '@session']

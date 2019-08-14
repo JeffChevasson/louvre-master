@@ -60,6 +60,11 @@ class PriceCalculator
 
     }
 
+    /**
+     * @param Visit $visit
+     * @return int
+     * @throws \Exception
+     */
     public function computePrice(Visit $visit)
     {
 
