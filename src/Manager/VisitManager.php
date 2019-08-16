@@ -57,15 +57,18 @@ class VisitManager
         $today = date("w");
         $tomorrow = date('w', strtotime('+1 day'));
         $publicHolidays = $this->publicHolidaysService->getPublicHolidaysOfThisYear();
-        if($hour > Visit::LIMITED_HOUR_TODAY || $today == 0 || $today == 2 || $today == $publicHolidays) {
+        if($hour > Visit::LIMITED_HOUR_TODAY || $today == 0 || $today == 2 || $today == $publicHolidays)
+        {
             $visiteDate = (new DateTime())->modify('+ 1 days');
-            if($tomorrow  == 0 || $tomorrow == 2 || $tomorrow == $publicHolidays) {
+            if($tomorrow  == 0 || $tomorrow == 2 || $tomorrow == $publicHolidays)
+            {
                 $visiteDate = (new DateTime())->modify('+ 2 days');
             }
         }
-        else {
+        else
+            {
             $visiteDate = (new DateTime());
-        }
+            }
         $visit->setVisiteDate($visiteDate);
         return $visiteDate;
     }
@@ -101,38 +104,53 @@ class VisitManager
 
         if ($visit->getType() == Visit::TYPE_FULL_DAY)
         {
-            if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR) {
-                $price = Prices::FULL_DAY_PRICE;
-                if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR && $discount == true){
-                    $price = Prices::FULL_DAY_DISCOUNT;
+            if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR)
+                {
+                    $price = Prices::FULL_DAY_PRICE;
+                    if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR && $discount == true)
+                    {
+                        $price = Prices::FULL_DAY_DISCOUNT;
+                    }
                 }
-            } elseif ($age >= Prices::MIN_AGE_SENIOR) {
-                $price = Prices::FULL_DAY_SENIOR;
-            } elseif ($age >= Prices::MIN_AGE_CHILD && $age < Prices::MAX_AGE_CHILD) {
-                $price = Prices::FULL_DAY_CHILD;
-            } else {
+            elseif ($age >= Prices::MIN_AGE_SENIOR)
+                {
+                    $price = Prices::FULL_DAY_SENIOR;
+                }
+            elseif ($age >= Prices::MIN_AGE_CHILD && $age < Prices::MAX_AGE_CHILD)
+                {
+                    $price = Prices::FULL_DAY_CHILD;
+                }
+            else
+                {
                 $price = Prices::FREE_TICKET;
-            }
+                }
         }
         elseif ($visit->getType() == Visit::TYPE_HALF_DAY)
-        {
-            if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR) {
-                $price = Prices::HALF_DAY_PRICE;
-                if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR && $discount == true){
-                    $price = Prices::HALF_DAY_DISCOUNT;
-                }
-            } elseif ($age >= Prices::MIN_AGE_SENIOR) {
-                $price = Prices::HALF_DAY_SENIOR;
-            } elseif ($age >= Prices::MIN_AGE_CHILD && $age < Prices::MAX_AGE_CHILD) {
-                $price = Prices::HALF_DAY_CHILD;
-            } else {
-                $price = Prices::FREE_TICKET;
+            {
+                if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR)
+                    {
+                        $price = Prices::HALF_DAY_PRICE;
+                        if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR && $discount == true)
+                        {
+                            $price = Prices::HALF_DAY_DISCOUNT;
+                        }
+                    }
+                elseif ($age >= Prices::MIN_AGE_SENIOR)
+                    {
+                        $price = Prices::HALF_DAY_SENIOR;
+                    }
+                elseif ($age >= Prices::MIN_AGE_CHILD && $age < Prices::MAX_AGE_CHILD)
+                    {
+                        $price = Prices::HALF_DAY_CHILD;
+                    }
+                else
+                    {
+                        $price = Prices::FREE_TICKET;
+                    }
             }
-        }
         $ticket->setPrice($price);
 
         return $price;
-
     }
 
     /**
@@ -142,13 +160,13 @@ class VisitManager
      */
     public function computePrice(Visit $visit)
     {
-
         $totalAmount = 0;
 
-        foreach ($visit->getTickets() as $ticket){
-            $priceTicket = $this->computeTicketPrice($ticket);
-            $totalAmount += $priceTicket;
-        }
+        foreach ($visit->getTickets() as $ticket)
+            {
+                $priceTicket = $this->computeTicketPrice($ticket);
+                $totalAmount += $priceTicket;
+            }
         $visit->setTotalAmount($totalAmount);
         return $totalAmount;
     }
@@ -174,12 +192,13 @@ class VisitManager
      */
     public function generateMailContact(EmailService $sendMailContact)
     {
-        try {
+        try
+            {
             $this->emailService->sendMailContact ($sendMailContact);
-        } catch (LoaderError $e) {
-        } catch (RuntimeError $e) {
-        } catch (SyntaxError $e) {
-        }
+            }
+        catch (LoaderError $e) {}
+        catch (RuntimeError $e) {}
+        catch (SyntaxError $e) {}
     }
 
 }

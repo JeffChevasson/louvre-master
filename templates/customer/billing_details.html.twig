@@ -8,19 +8,20 @@
 {% block body %}
     <div class="jumbotron">
 
+        <div class="table-responsive">
+            <table class="table">
+                    {{ form_start(form) }}
 
-        {{ form_start(form) }}
+                    {{ form_row(form) }}
 
-                {{ form_row(form) }}
+                        <br>
+                        <br>
 
-                    <br>
-                    <br>
+                    <input type="submit" class="btn btn btn-primary" value="Procédez au paiement">
 
-                <input type="submit" class="btn btn btn-primary" value="Procédez au paiement">
-
-        {{ form_end(form) }}
-
-
+                    {{ form_end(form) }}
+            </table>
+        </div>
 
     </div>
 {% endblock %}

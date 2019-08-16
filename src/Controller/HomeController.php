@@ -37,7 +37,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * page 2 choix des billets
+     * page 2 choix des billets (entité Ticket)
      *
      * @Route("/billets", name="tickets", methods={"GET" , "POST"})
      * @param Request $request
@@ -57,6 +57,8 @@ class HomeController extends AbstractController
 
         //si la requête est en POST
         if ($form->isSubmitted () && $form->isValid ())
+
+        //on compte le nombre de tickets
         {
             $visit = $form->getData ();
             for ($i = 1; $i <= $visit->getNbticket (); $i++)
@@ -66,11 +68,8 @@ class HomeController extends AbstractController
 
             $request->getSession ()->set ('visit', $visit);
 
-
             //On redirige l'acheteur vers la page 3
             return $this->redirectToRoute ('visitors');
-
-
         }
 
         //On est en GET. On affiche le formulaire
@@ -79,7 +78,7 @@ class HomeController extends AbstractController
 
 
     /**
-     * page 3 identification des visiteurs (entité Identify)
+     * page 3 identification des visiteurs (entité Ticket)
      *
      * @Route("/identification", name="visitors", methods={"GET" , "POST"})
      * @param Request $request
@@ -90,17 +89,19 @@ class HomeController extends AbstractController
      */
     public function identifyAction(Request $request, SessionInterface $session, VisitManager $visitManager): Response
     {
-        //On crée un nouvel objet Visit
+        //On appelle objet Visit
         $visit = $visitManager->getCurrentVisit();
+
+        // on affiche un message flash
         $this->addFlash ('success', 'votre choix a bien été enregistré');
 
         //On appelle le formulaire VisitTicketType
-
         $form = $this->createForm (VisitTicketsType::class, $visit);
         $form->handleRequest ($request);
 
         if ($form->isSubmitted () && $form->isValid ()) {
 
+            //on calcul ici le montant total de la visite
             $visitManager->computePrice($visit);
 
             //On redirige l'acheteur vers la page 4
@@ -111,9 +112,7 @@ class HomeController extends AbstractController
         return $this->render (('customer/visitors_details.html.twig'), [
             'form' => $form->createView (),
         ]);
-
     }
-
 
     /** page 4 coordonnées de l'acheteur (entité Customer)
      * @param SessionInterface $session
@@ -127,6 +126,7 @@ class HomeController extends AbstractController
     {
         //On crée un nouvel objet Customer
         $customer = new Customer();
+        //On appelle l'objet Visit
         $visit = $visitManager->getCurrentVisit();
         $visit->setCustomer ($customer);
 
@@ -148,21 +148,18 @@ class HomeController extends AbstractController
             ]);
     }
 
-
     /**
      * page 5 Récapitulatif de la commande
      *
      * @Route("/recapitulatif_de_la_commande", name="order_summary")
-     * @param SessionInterface $session
      * @param VisitManager $visitManager
      * @return Response
      * @throws InvalidVisitSessionException
      */
     public
-    function summaryAction(SessionInterface $session, VisitManager $visitManager): Response
+    function summaryAction(VisitManager $visitManager): Response
     {
-
-        //On crée un nouvel objet Visit
+        //On appelle l'objet Visit
         $visit = $visitManager->getCurrentVisit();
 
         // on est en GET. On affiche le formulaire
@@ -180,16 +177,11 @@ class HomeController extends AbstractController
      * @param VisitManager $visitManager
      * @return Response
      * @throws InvalidVisitSessionException
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws Exception
      */
     public
     function payAction(Request $request, VisitManager $visitManager): Response
-
     {
-        //On crée un nouvel objet Visit
+        //On appelle l'objet Visit
         $visit = $visitManager->getCurrentVisit();
         if ($request->getMethod () === "POST") {
             //Création de la charge - Stripe
@@ -221,17 +213,13 @@ class HomeController extends AbstractController
 
             }catch(Exception $e)
            {
-
                 $this->addFlash('warning', 'Paiement échoué');
            }
 
-            //Redirection
             //On redirige l'acheteur vers la page 7
         }
-
         return new Response($this->renderView ('payment/payment.html.twig'));
     }
-
 
     /**
      * page 7 confirmation
@@ -244,17 +232,17 @@ class HomeController extends AbstractController
     public
     function confirmationAction(SessionInterface $session, VisitManager $visitManager): Response
     {
-
-        //On crée un nouvel objet Visit
+        //On appelle l'objet Visit
         $visit = $visitManager->getCurrentVisit();
 
+        $this->addFlash ('notice', 'Paiement enregistré');
 
         // on est en GET. On affiche le formulaire
         return $this->render ('payment/payment_confirmation.html.twig', [
             'visit' => $visit
         ]);
-        $this->addFlash ('notice', 'Paiement enregistré');
     }
+
     /**
      * page 9 RGPD
      * @Route("/rgpd", name="rgpd")

@@ -14,17 +14,15 @@
 
         <div class="row">
             <div class="col-sm-12">
+                {{ form_start(form) }}
 
-        {{ form_start(form) }}
+                {{ form_row(form.lastname) }} <br/>
 
-        {{ form_row(form.lastname) }} <br/>
+                {{ form_row(form.firstname) }} <br/>
 
-        {{ form_row(form.firstname) }} <br/>
+                {{ form_row(form.email) }}<br/>
 
-        {{ form_row(form.email) }}<br/>
-
-        {{ form_row(form.message) }}<br/>
-
+                {{ form_row(form.message) }}<br/>
             </div>
 
             <div class="col-sm-11">

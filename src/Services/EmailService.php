@@ -23,8 +23,6 @@ class EmailService
     protected $templating;
     private $emailfrom;
 
-
-
     public function __construct(Swift_Mailer $mailer, Environment $templating, $emailfrom)
     {
         $this->mailer = $mailer;

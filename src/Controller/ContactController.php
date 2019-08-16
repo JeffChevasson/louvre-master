@@ -25,15 +25,15 @@ class ContactController extends AbstractController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-public function contactAction(Request $request, EmailService $emailService)
-{
-    $form = $this->createForm(ContactType::class);
-    $form->handleRequest($request);
-    if($form->isSubmitted() && $form->isValid()) {
-        $emailService->sendMailContact($form->getData());
-        $this->addFlash('notice', 'Votre message a bien été envoyé');
-        return $this->redirect($this->generateUrl('home'));
+    public function contactAction(Request $request, EmailService $emailService)
+    {
+        $form = $this->createForm (ContactType::class);
+        $form->handleRequest ($request);
+        if ($form->isSubmitted () && $form->isValid ()) {
+            $emailService->sendMailContact ($form->getData ());
+            $this->addFlash ('notice', 'Votre message a bien été envoyé');
+            return $this->redirect ($this->generateUrl ('home'));
+        }
+        return $this->render ('contact/contact.html.twig', array('form' => $form->createView ()));
     }
-    return $this->render('contact/contact.html.twig', array('form'=>$form->createView()));
-}
 }

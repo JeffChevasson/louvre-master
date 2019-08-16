@@ -3,8 +3,6 @@
 
 namespace App\Exception;
 
-
-
 /**
  * Class InvalidVisitSessionException
  * @package App\Exception
