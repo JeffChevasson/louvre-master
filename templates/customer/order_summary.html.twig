@@ -12,18 +12,94 @@
     <br/>
     <h6>Merci d'avoir passer commande auprès du musée du Louvre. Pour information, voici le détail de votre commande que nous vous conseillons de vérifier avant de procéder au paiement.</h6>
     <br>
-    <h6>Montant total de la commande :</h6>
+    <br>
+    <div class="table-responsive-lg">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                          Détails de la commande
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Numéro de commande</td>
+                <td>{{ visit.bookingCode }}</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Date de la visite</td>
+                <td>Nombre de billets</td>
+                <td>Montant</td>
+            </tr>
+            <tr>
+                <td>{{ visit.visiteDate|date("d/m/Y") }} </td>
+                <td>{{ visit.nbTicket }}</td>
+                <td>{{ visit.totalAmount }} €</td>
+            </tr>
 
-    <p>{{ totalprice }} €</p>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive-lg">
+        <table class="table table-hover" style="width: 100%">
+            <thead>
+            <thead>
+            <tr>
+                <th>
+                    Détails de la facturation
+                </th>
+            </tr>
+
+            <tbody>
+            <tr>
+                <td>&nbsp;</td>
+                <td >&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Nom :</td>
+                <td>{{ visit.customer.lastname }}</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Pr&eacute;nom :</td>
+                <td>{{ visit.customer.firstname }}</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Email :</td>
+                <td>{{ visit.customer.email }}</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Date de la commande :</td>
+                <td>{{ visit.invoicedate|date("d/m/Y") }}</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>Montant total</td>
+                <td>{{ visit.totalAmount }} €</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <br>
     <br>
 
     <a class="btn btn-primary" href="{{ path ('payment') }}" role="button">poursuivre vers le paiement</a>
-
-
-
-
-
-
 </div>
 {% endblock %}

@@ -2,4 +2,10 @@
 home:
   path: /
   controller: App\Controller\HomeController::indexAction
+contact:
+  path: /contact
+  controller: App\Controller\ContactController::contactAction
+rgpd:
+  path: /rgpd
+  controller: App\Controller\HomeController::rgpdAction
 

@@ -4,17 +4,70 @@
     Confirmation du paiement
 {% endblock %}
 
-
 {% block body %}
     <div class="jumbotron" mt-4>
         <h2> Page confirmation du paiement</h2>
         <br>
         <br>
-        <h4>
-            Bravo !!! votre paiement a été validé. Vous recevrez vos billets par emails ou vous pouvez vous présenter à l'entrée  du musée et présenter le QR Code ci-dessous.
-
-
-        </h4>
+        <h5>
+            Bravo !!! votre paiement a été validé. Vous recevrez vos billets par emails
+            reprenant les informations ci-dessous.
+        </h5>
     </div>
+    <div class="table-responsive-sm">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Numéro de la commande</th>
+                <th scope="col">Civilités de l'acheteur</th>
+                <th scope="col">Email d'envoi</th>
+                <th scope="col">Date de la visite</th>
+                <th scope="col">Nombre de billets</th>
+                <th scope="col">Montant total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+
+                <td>{{ visit.bookingCode }}</td>
+                <td>{{ visit.customer.firstname }} {{ visit.customer.lastname  }}</td>
+                <td>{{ visit.customer.email }}</td>
+                <td>{{ visit.visiteDate|date("d/m/Y") }}</td>
+                <td>{{ visit.nbTicket }}</td>
+                <td>{{ visit.totalAmount }} €</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <div>
+        <div class="container">
+            <h6>
+                Nous portons à votre connaissance que ce site recueille certaines données personnelles
+                et est régit par le code de protection des données RGPD.
+                Vous pouvez lire l'ensemble de ces informations relatives à la RGPD en cliquant sur le lien
+                suivant <a href="#">RGPD</a>
+            </h6>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <tr>
+                    <td>
+                        <input type="checkbox" id="validation_rgpd" name="validation_rgpd" required="false" value="1" />
+                    </td>
+                    <td></td>
+                    <td>
+                        <label class="labelConnexion text-center" >en cochant cette case, j&#039;accepte les conditions du site</label>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+    </div>
+
 
 {% endblock %}

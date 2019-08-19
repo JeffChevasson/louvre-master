@@ -9,15 +9,20 @@
     <div class="jumbotron">
         <h2>Saisissez le détail pour chaque visiteur</h2>
 
-        {{ form_start(form) }}
+            <div class="table-responsive">
+                <table class="table">
+
+            {{ form_start(form) }}
+
+            {{ form_errors(form) }}
 
             {{ form_row(form) }}
 
-        <input type="submit" class="btn btn btn-primary" value="Valider">
+            <input type="submit" class="btn btn btn-primary" value="Valider">
 
-        {{ form_end(form) }}
+            {{ form_end(form) }}
 
-
-
+                </table>
+            </div>
     </div>
 {% endblock %}

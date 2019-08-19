@@ -1,9 +1,9 @@
 swiftmailer:
     url: '%env(MAILER_URL)%'
-    transport: gmail
-    username: 'jchevasson@gmail.com'
-    password: 'jenevatim74'
+    transport: mailtrap
+    username: '07a3a8735c59a9'
+    password: '3b940cc4718860'
     port: 465
-    encryption: ssl
+    encryption: tls
     auth_mode: login
     spool: { type: 'memory' }

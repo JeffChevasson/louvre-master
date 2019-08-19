@@ -9,9 +9,9 @@ class PublicHolidaysService
     public function getPublicHolidaysOfThisYear($year = null)
     {
         if ($year === null)
-        {
-            $year = intval (date ('Y'));
-        }
+            {
+                $year = intval (date ('Y'));
+            }
 
         $easterDate = easter_date ($year);
         $easterDay  = date ('d', $easterDate);

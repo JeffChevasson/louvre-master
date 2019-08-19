@@ -14,8 +14,7 @@ use App\Validator\Constraints as LouvreAssert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  * @ORM\Table(name="visit")
- * @LouvreAssert\OverLimitSoldTickets(nbTicketsByDay="Visit::NB_TICKET_MAX_DAY")
- * @LouvreAssert\LimitedReservation(hour="14")
+
  */
 
 
@@ -169,7 +168,7 @@ class Visit
         return $this;
     }
 
-    public function getBookingCode(): ?int
+    public function getBookingCode(): ?string
     {
         return $this->bookingCode;
     }

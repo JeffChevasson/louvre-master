@@ -5,8 +5,13 @@ namespace App\Services;
 
 use App\Entity\Visit;
 use App\Form\ContactType;
+use Swift_Mailer;
+use Swift_Message;
 use Twig\Environment;
 use Symfony\Bundle\MonologBundle\SwiftMailer;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class EmailService
 {
@@ -18,9 +23,7 @@ class EmailService
     protected $templating;
     private $emailfrom;
 
-
-
-    public function __construct(\Swift_Mailer $mailer, Environment $templating, $emailfrom)
+    public function __construct(Swift_Mailer $mailer, Environment $templating, $emailfrom)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
@@ -31,20 +34,20 @@ class EmailService
     /**
      * @param $visit
      * @return mixed
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function sendMailConfirmation(Visit $visit)
     {
         $email = $visit->getCustomer()->getEmail();
 
-        $message = (new \Swift_Message())
+        $message = (new Swift_Message())
             ->setContentType('text/html')
             ->setSubject('votre commande')
             ->setFrom($this->emailfrom)
             ->setTo($email);
-        $message->setBody($this->templating->render('contact/email/registration.html.twig', [
+        $message->setBody($this->templating->render('payment/payment_confirmation_mail.html.twig', [
             'visit' => $visit
             ]));
         return $this->mailer->send($message);
@@ -52,16 +55,16 @@ class EmailService
 
     /**
      * @param $data
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function sendMailContact($data)
     {
-        $message = (new \Swift_Message())
+        $message = (new Swift_Message())
             ->setFrom($data['email'])
             ->setTo($this->emailfrom)
-            ->setBody($this->templating->render('contact/contact.html.twig', [
+            ->setBody($this->templating->render('contact/contact_mail.html.twig', [
                 'data' => $data
             ]))
             ->setContentType('text/html');

@@ -1,0 +1,228 @@
+
+<!DOCTYPE>
+<html lang="fr">
+<head>
+    <title>Réservation musée du Louvre</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+</head>
+<body style="margin:0; padding:0;" bgcolor="#eaeced">
+<table style="min-width:320px;" width="100%" cellspacing="0" cellpadding="0" bgcolor="#eaeced">
+
+    <td class="wrapper" style="padding:0 10px;">
+
+        <!-- module 1 -->
+        <table width="100%" height="60%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td bgcolor="#eaeced">
+                    <table class="flexible" width="600" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td data-bgcolor="bg-block" class="holder" style="padding:58px 60px 52px;" bgcolor="#f9f9f9">
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td align="center" style="text-align: center; padding-bottom: 20px;">
+                                            <img src="{{ img }}" width="300" border="0" alt="logo_du_louvre">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-min="25" data-max="45" align="center" style="font:35px/38px Arial, Helvetica, sans-serif; color:#f05f40; padding:0 0 24px;">
+                                            Billetterie du musée du Louvre
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-min="10" data-max="26" align="left" style="font:16px Arial, Helvetica, sans-serif; color:#000000; padding:0 0 23px;">
+                                            Bonjour {{ visit.customer.lastname }} {{ visit.customer.firstname }},<br/><br/>
+
+                                            Vous venez d'effectuer une commande en ligne sur la billetterie du Louvre. Nous vous en remercions.<br/><br/>
+                                            Vous trouverez ci-dessous le récapitulatif de vos achats.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-min="10" data-max="26" align="left" style="font:16px Arial, Helvetica, sans-serif; color:#000000; padding:0 0 23px;">
+
+                                            <strong>Date de la visite :</strong> {{ visit.visitDate | date('d/m/Y') }}<br/>
+                                            <strong>Type de billet :</strong>
+                                            {% if visit.type is constant('TYPE_FULL_DAY', visit ) %}
+                                                Billet(s) journée
+                                            {% endif %}
+                                            {% if visit.type is constant('TYPE_HALF_DAY', visit) %}
+                                            Billet(s) demi-journée
+                                            {% endif %}<br/>
+                                            <strong>Numéro de commande :</strong> {{ visit.bookingCode}}<br/>
+                                            <strong>Montant de la commande :</strong> {{ visit.totalAmount }} euros<br/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-min="10" data-max="26" align="left" style="font:16px Arial, Helvetica, sans-serif; color:#000000; padding:0 0 23px;">
+
+                                            {% for ticket in visit.tickets %}
+
+                                                <strong>Billet n° {{ loop.index }}</strong><br/>
+                                                au nom de {{ ticket.lastname }} {{ ticket.firstname }}<br/>
+                                                date de naissance : {{ ticket.birthdate| date('d/m/Y')}}<br/>
+                                                prix du billet : {{ ticket.price }} euros<br/><br/>
+
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <tr><td height="28"></td></tr>
+
+        <!-- module 2 -->
+        <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td bgcolor="#eaeced">
+                    <table class="flexible" width="600" align="center" style="margin:0 auto;" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td style="padding:64px 60px 10px;" bgcolor="#f9f9f9">
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td data-min="20" data-max="40" data-link-style="text-decoration:none; color:#292c34;" align="center" style="font:30px/33px Arial, Helvetica, sans-serif; color:#f05f40; padding:0 0 23px;">
+                                            Préparez votre visite
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-min="10" data-max="26" align="left" style="font:16px Arial, Helvetica, sans-serif; color:#000000; padding:0 0 23px;">
+                                            <p>Le musée du Louvre vous accueille de 9h à 18h, jusqu'à 21h45 les jeudis et vendredis. La fermeture des salles débute à 17h30 et à 21h30 les jeudis et vendredis.</p>
+
+                                            <p>Le billet acheté en ligne est nominatif. Un document d’identité peut vous être demandé à votre arrivée. </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                        <tr>
+                            <td>
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <th class="flex" width="300" align="left" style="vertical-align:top; padding:0;">
+                                            <table width="100%" cellpadding="0" cellspacing="0">
+                                                <!--visites guidees-->
+                                                <tr>
+                                                    <td height="300" bgcolor="#F05F40">
+                                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="padding:10px 40px 10px 70px;">
+                                                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                                                        <tr>
+                                                                            <td align="right" style="font:bold 15px/23px Arial, Helvetica, sans-serif; color:#fff; padding:0 0 6px;">
+                                                                                <a href="https://www.louvre.fr/visites-guidees" target="_blank" style="text-decoration: underline; color: white">Les visites guidées</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td data-min="10" data-max="25" align="right" style="font:15px/23px Arial, Helvetica, sans-serif; color:#ffffff;">
+                                                                                Que vous veniez pour la première fois ou que vous soyez un habitué, trouvez la visite qui vous correspond, parmi le large choix de thématiques proposées.
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+
+                                                <!-- Expositions -->
+
+                                                <tr>
+                                                    <td height="300" bgcolor="#76b3dd">
+                                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="padding:10px 40px 10px 70px;">
+                                                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                                                        <tr>
+                                                                            <td align="right" style="font:bold 15px/23px Arial, Helvetica, sans-serif; color:#fff; padding:0 0 6px;">
+                                                                                <a href="https://www.louvre.fr/horaires-tarifs-acces" target="_blank" style="text-decoration: underline; color: white">Infos pratiques</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td data-min="10" data-max="25" align="right" style="font:15px/23px Arial, Helvetica, sans-serif; color:#ffffff;">
+                                                                                Les horaires du musée, les heures d'ouverture et de fermeture des salles, les rendez-vous des visites guidées, les informations pour y accéder...
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </th>
+                                        <th class="flex" width="300" align="left" style="vertical-align:top; padding:0;">
+                                            <table width="100%" cellpadding="0" cellspacing="0">
+
+                                                <!-- Les expositions -->
+                                                <tr>
+                                                    <td height="300" bgcolor="#218838">
+                                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="padding:10px 70px 10px 40px;">
+                                                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                                                        <tr>
+                                                                            <td data-min="10" data-max="25" style="font:bold 15px/23px Arial, Helvetica, sans-serif; color:#ffffff; padding:0 0 6px;">
+                                                                                <a href="https://www.louvre.fr/expositions" target="_blank" style="text-decoration: underline; color: white">Les expositions</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="font:15px/23px Arial, Helvetica, sans-serif; color:#ffffff;">
+                                                                                Découvrez les expositions permanentes et temporaires du Musée du louvre. Chaque saison, nous vous proposons des expositions temporaires, fruits des dernières recherches des spécialistes.
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+
+
+                                                <!-- les ateliers -->
+                                                <tr>
+                                                    <td height="300" bgcolor="#333c4d">
+                                                        <table width="100%" cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                                <td style="padding:10px 70px 10px 40px;">
+                                                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                                                        <tr>
+                                                                            <td data-min="10" data-max="25" style="font:bold 15px/23px Arial, Helvetica, sans-serif; color:#ffffff; padding:0 0 6px;">
+                                                                                <a href="https://www.louvre.fr/ateliers" target="_blank" style="text-decoration: underline; color: white">Les ateliers</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td data-color="text-2" data-size="size text-2" data-min="10" data-max="25" data-link-color="link text-2 color" data-link-style="font-weight:bold; text-decoration:underline; color:#fff;" style="font:15px/23px Arial, Helvetica, sans-serif; color:#fff;">
+                                                                                Les ateliers du Louvre sont accessibles pour les enfants comme pour les adultes. Un large choix d'approches artistiques y est proposé sous la conduite d’un expert.
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr><td height="28"></td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </td>
+</table>
+</body>
+</html>
