@@ -32,7 +32,7 @@ class ContactController extends AbstractController
         if ($form->isSubmitted () && $form->isValid ()) {
             $emailService->sendMailContact ($form->getData ());
             $this->addFlash ('notice', 'Votre message a bien été envoyé');
-            return $this->redirect ($this->generateUrl ('home'));
+            return $this->redirect ($this->generateUrl ('contact/contact.html.twig'));
         }
         return $this->render ('contact/contact.html.twig', array('form' => $form->createView ()));
     }
