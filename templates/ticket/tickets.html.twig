@@ -6,33 +6,33 @@
 
 
 {% block body %}
-    <div class="jumbotron" mt-4>
+    <div class="jumbotron">
         Page billets
     </div>
 
-<div class="table-responsive">
-    <table class="table">
+    <div class="table-responsive">
+        <table class="table">
 
-        {{ form_start(form) }}
+            {{ form_start(form) }}
 
-        {{ form_label(form.visitedate, "Date de la visite*") }}
-        {{ form_widget(form.visitedate) }}
-        {{ form_errors(form.visitedate) }}<br/>
+            {{ form_label(form.visitedate, "Date de la visite*") }}
+            {{ form_widget(form.visitedate) }}
+            {{ form_errors(form.visitedate) }}<br/>
 
-        {{ form_label(form.type, "Type de billets*") }}
-        {{ form_widget(form.type) }}
-        {{ form_errors(form.type) }}<br/>
+            {{ form_label(form.type, "Type de billets*") }}
+            {{ form_widget(form.type) }}
+            {{ form_errors(form.type) }}<br/>
 
-        {{ form_label(form.nbticket, "Nombre de billets*") }}
-        {{ form_widget(form.nbticket) }}
-        {{ form_errors(form.nbticket) }}<br/>
-        <input type="submit" class="btn btn btn-primary" value="Valider">
-        <br/>
+            {{ form_label(form.nbticket, "Nombre de billets*") }}
+            {{ form_widget(form.nbticket) }}
+            {{ form_errors(form.nbticket) }}<br/>
+            <input type="submit" class="btn btn btn-primary" value="Valider">
+            <br/>
 
-        {{ form_end(form) }}
+            {{ form_end(form) }}
 
-    </table>
-</div>
+        </table>
+    </div>
     <script>
         $(document).ready(function() {
             // you may need to change this code if you are not using Bootstrap Datepicker

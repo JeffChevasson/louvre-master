@@ -17,6 +17,10 @@ class VisitTicketsType extends AbstractType
     {
         $builder
             ->add('tickets', CollectionType::class,[
+                'label' => null,
+                'entry_options'=> [
+                    'label' =>null
+                ],
                 'entry_type' => TicketType::class,
                 'by_reference' =>false
             ])
@@ -27,6 +31,7 @@ class VisitTicketsType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Visit::class,
+            'label' => null
         ]);
     }
 }

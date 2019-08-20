@@ -14,23 +14,12 @@ use Symfony\Component\Validator\Constraint;
 
 class NoReservationOnPublicHolidays extends Constraint
 {
-    public $publicHolidays;
 
 
-
-    public function getRequiredOptions()
-    {
-        return [
-            'publicHolidays'
-        ];
-    }
 
     public function getMessage()
     {
         return 'Réservation indisponible, ce jour est férié';
     }
-    public function getTargets()
-    {
-        return self::CLASS_CONSTRAINT;
-    }
+
 }

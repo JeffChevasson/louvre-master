@@ -27,9 +27,6 @@ class ToLateForToday extends Constraint
     {
         return 'Une fois %hour% passées, vous ne pouvez plus effectuer une réservation sur le jour en cours';
     }
-    public function getTargets()
-    {
-        return self::CLASS_CONSTRAINT;
-    }
+
 
 }

@@ -42,9 +42,11 @@
 {% endblock %}
 {% block body %}
     {{ parent() }}
-    <div>
+    <div class="jumbotron">
         <h2>Paiement</h2>
         <br/>
+
+        <p>Vous pouvez maintenant effectuer le paiement pour la commande d'un montant de <stonrg>{{ visit.totalAmount }} €</stonrg></p>
 
                 <script src="https://js.stripe.com/v3/"></script>
                 <form action="{{ path ('payment') }}" method="post" id="payment-form">
@@ -60,8 +62,9 @@
                         <!-- Used to display form errors. -->
                         <div id="card-errors" role="alert"></div>
                     </div>
+                    <br>
 
-                    <button>Valider</button>
+                    <button class="btn btn-primary">Valider</button>
                 </form>
 
   </div>

@@ -6,6 +6,7 @@ namespace App\Validator\Constraints;
 use App\Entity\Visit;
 use App\Repository\VisitRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
@@ -32,6 +33,7 @@ class OverLimitSoldTicketsValidator extends ConstraintValidator
     /**
      * @param mixed $value
      * @param Constraint $constraint
+     * @throws NonUniqueResultException
      */
     public function validate($value, Constraint $constraint)
     {

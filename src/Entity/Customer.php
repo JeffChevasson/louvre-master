@@ -58,6 +58,9 @@ class Customer
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFirstname(): ?string
     {
         return $this->firstname;

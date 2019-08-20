@@ -10,13 +10,17 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class NoReservationOnDayValidator extends ConstraintValidator
 {
+    /**
+     * @param $day
+     * @return bool
+     */
     public function check($day)
     {
         if ($day->format('w') != 0)
         {
             return false;
         }
-        elseif ($day->format('w') != 2)
+       elseif ($day->format('w') != 2)
         {
             return false;
         }
@@ -27,9 +31,15 @@ class NoReservationOnDayValidator extends ConstraintValidator
         }
     }
 
-    public function validate($value, Constraint $constraint)
+    /**
+     * @param $day
+     * @param Constraint $constraint
+     */
+    public function validate($day, Constraint $constraint)
     {
-        if ($day->format('w') == $constraint->day)
+
+
+        if ($day->format('w') == false)
         {
             $this->context->buildViolation ($constraint->getMessage())
                 ->addViolation ();

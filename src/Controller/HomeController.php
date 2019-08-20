@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 
@@ -6,12 +7,14 @@ use App\Entity\Customer;
 use App\Entity\Ticket;
 use App\Exception\InvalidVisitSessionException;
 use App\Form\CustomerType;
+use App\Form\VisitCustomerType;
 use App\Form\VisitTicketsType;
 use App\Form\VisitType;
 use App\Manager\VisitManager;
 use App\Services\PublicHolidaysService;
 use Exception;
 use Stripe\Charge;
+use Stripe\Error\Card;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,22 +50,19 @@ class HomeController extends AbstractController
      */
     public function orderAction(Request $request, VisitManager $visitManager, PublicHolidaysService $publicHolidaysService): Response
     {
-        $visit = $visitManager->initVisit();
+        $visit = $visitManager->initVisit ();
 
-        $publicHolidays = $publicHolidaysService->getPublicHolidaysOfThisYear();
+        $publicHolidays = $publicHolidaysService->getPublicHolidaysOfThisYear ();
 
         //A partir du formulaire on le génère
-        $form = $this->createForm (VisitType::class,$visit);
+        $form = $this->createForm (VisitType::class, $visit);
         $form->handleRequest ($request);
 
         //si la requête est en POST
-        if ($form->isSubmitted () && $form->isValid ())
-
-        //on compte le nombre de tickets
+        if ($form->isSubmitted () && $form->isValid ()) //on compte le nombre de tickets
         {
             $visit = $form->getData ();
-            for ($i = 1; $i <= $visit->getNbticket (); $i++)
-            {
+            for ($i = 1; $i <= $visit->getNbticket (); $i++) {
                 $visit->addTicket (new Ticket());
             }
 
@@ -90,10 +90,7 @@ class HomeController extends AbstractController
     public function identifyAction(Request $request, SessionInterface $session, VisitManager $visitManager): Response
     {
         //On appelle objet Visit
-        $visit = $visitManager->getCurrentVisit();
-
-        // on affiche un message flash
-        $this->addFlash ('success', 'votre choix a bien été enregistré');
+        $visit = $visitManager->getCurrentVisit ();
 
         //On appelle le formulaire VisitTicketType
         $form = $this->createForm (VisitTicketsType::class, $visit);
@@ -102,7 +99,10 @@ class HomeController extends AbstractController
         if ($form->isSubmitted () && $form->isValid ()) {
 
             //on calcul ici le montant total de la visite
-            $visitManager->computePrice($visit);
+            $visitManager->computePrice ($visit);
+
+            // on affiche un message flash
+            $this->addFlash ('success', 'votre choix a bien été enregistré 1');
 
             //On redirige l'acheteur vers la page 4
             return $this->redirectToRoute ('billing_details');
@@ -115,28 +115,27 @@ class HomeController extends AbstractController
     }
 
     /** page 4 coordonnées de l'acheteur (entité Customer)
-     * @param SessionInterface $session
      * @param Request $request
      * @param VisitManager $visitManager
      * @return Response
      * @throws InvalidVisitSessionException
      * @Route("/customer", name="billing_details", methods={"GET" , "POST"})
      */
-    public function customerAction(SessionInterface $session, Request $request, VisitManager $visitManager): Response
+    public function customerAction(Request $request, VisitManager $visitManager): Response
     {
+
         //On crée un nouvel objet Customer
-        $customer = new Customer();
+        //$customer = new Customer();
         //On appelle l'objet Visit
         $visit = $visitManager->getCurrentVisit();
-        $visit->setCustomer ($customer);
+        //$visit->setCustomer ($customer);
 
         //A partir du formulaire on le génère
-        $form = $this->createForm (CustomerType::class, $customer);
+        $form = $this->createForm (VisitCustomerType::class, $visit);
         $form->handleRequest ($request);
 
         //si la requête est en POST
-        if ($form->isSubmitted () && $form->isValid ())
-        {
+        if ($form->isSubmitted () && $form->isValid ()) {
             //On redirige l'acheteur vers la page 5
             return $this->redirectToRoute ('order_summary');
         }
@@ -160,7 +159,7 @@ class HomeController extends AbstractController
     function summaryAction(VisitManager $visitManager): Response
     {
         //On appelle l'objet Visit
-        $visit = $visitManager->getCurrentVisit();
+        $visit = $visitManager->getCurrentVisit ();
 
         // on est en GET. On affiche le formulaire
         return $this->render ('customer/order_summary.html.twig', [
@@ -177,12 +176,15 @@ class HomeController extends AbstractController
      * @param VisitManager $visitManager
      * @return Response
      * @throws InvalidVisitSessionException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public
     function payAction(Request $request, VisitManager $visitManager): Response
     {
         //On appelle l'objet Visit
-        $visit = $visitManager->getCurrentVisit();
+        $visit = $visitManager->getCurrentVisit ();
         if ($request->getMethod () === "POST") {
             //Création de la charge - Stripe
             $token = $request->request->get ('stripeToken');
@@ -191,30 +193,29 @@ class HomeController extends AbstractController
             $secretkey = $this->getParameter ('stripe_secret_key');
 
             Stripe::setApiKey ($secretkey);
-           try{
+            try {
 
-            $charge = Charge::create (array(
-                'amount' => $visitManager->computePrice ($visit) * 100,
-                'currency' => 'eur',
-                'source' => $token,
-                'description' => 'Réservation sur la billetterie du Musée du Louvre'
-            ));
+                $charge = Charge::create (array(
+                    'amount' => $visitManager->computePrice ($visit) * 100,
+                    'currency' => 'eur',
+                    'source' => $token,
+                    'description' => 'Réservation sur la billetterie du Musée du Louvre'
+                ));
 
-            // Création du booking code
-            $visitManager->generateBookingCodeWithEmail($visit);
+                // Création du booking code
+                $visitManager->generateBookingCodeWithEmail ($visit);
 
-            // enregistrement dans la base
-            $em = $this->getDoctrine ()->getManager ();
-            $em->persist ($visit);
-            $em->flush ();
-            $this->addFlash ('notice', 'Paiement enregistré');
+                // enregistrement dans la base
+                $em = $this->getDoctrine ()->getManager ();
+                $em->persist ($visit);
+                $em->flush ();
+                $this->addFlash ('notice', 'Paiement enregistré');
 
-            return $this->redirectToRoute ('payment_confirmation');
+                return $this->redirectToRoute ('payment_confirmation');
 
-            }catch(Exception $e)
-           {
-                $this->addFlash('warning', 'Paiement échoué');
-           }
+            } catch (Card $e) {
+                $this->addFlash ('warning', 'Paiement échoué');
+            }
 
             //On redirige l'acheteur vers la page 7
         }
@@ -233,7 +234,7 @@ class HomeController extends AbstractController
     function confirmationAction(SessionInterface $session, VisitManager $visitManager): Response
     {
         //On appelle l'objet Visit
-        $visit = $visitManager->getCurrentVisit();
+        $visit = $visitManager->getCurrentVisit ();
 
         $this->addFlash ('notice', 'Paiement enregistré');
 

@@ -7,70 +7,70 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>{% block title %}Billetterie du Musée du Louvre{% endblock %}</title>
-
-    {% block stylesheets %}
-
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-
-        <!-- Custom fonts for this template -->
-        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-        <!-- Custom styles for this template -->
-        <link href="css/grayscale.min.css" rel="stylesheet">
-
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a class="navbar-brand" href="#"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('home') }}">Accueil <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('tickets') }}">billets</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('visitors') }}">visiteurs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('billing_details') }}">facturation</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('order_summary') }}">récap</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('payment') }}">paiement</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('payment_confirmation') }}">confirmation de paiement</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('contact') }}">contact</a>
-                    </li>
-
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
-
-    {% endblock %}
-
-
 </head>
 <body>
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success" mt-4>
+{% block stylesheets %}
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/grayscale.min.css" rel="stylesheet">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('home') }}">Accueil <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('tickets') }}">billets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('visitors') }}">visiteurs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('billing_details') }}">facturation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('order_summary') }}">récap</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('payment') }}">paiement</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('payment_confirmation') }}">confirmation de paiement</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('contact') }}">contact</a>
+                </li>
+
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+{% endblock %}
+    <br>
+    {% for label,messages in app.flashes %}
+        {% for message in messages %}
+        <div class="alert alert-{{ label }}" mt-4>
             {{ message }}
         </div>
+            {% endfor %}
     {% endfor %}
 
     <div id="content" class="col-lg-12">

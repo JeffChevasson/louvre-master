@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Visit;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,12 +21,17 @@ class VisitRepository extends ServiceEntityRepository
         parent::__construct($registry, Visit::class);
     }
 
-    public function countNbTicketsOnThisDate(?\DateTimeInterface $visitDate)
+    /**
+     * @param DateTimeInterface|null $visitDate
+     * @return mixed
+     * @throws NonUniqueResultException
+     */
+    public function countNbTicketsOnThisDate(?DateTimeInterface $visitDate)
     {
         $qb = $this->createQueryBuilder('v');
-        $qb->select('sum(v.nbticket)')
-            ->where('v.visitedate = :visitedate')
-            ->setParameter('visitedate', $visitDate);
+        $qb->select('sum(v.nbTicket)')
+            ->where('v.visiteDate = :visiteDate')
+            ->setParameter('visiteDate', $visitDate);
         return $qb
             ->getQuery()
             ->getSingleScalarResult();

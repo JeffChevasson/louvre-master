@@ -17,33 +17,31 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>
-                          Détails de la commande
+                    <th colspan="4">
+                        Détails de la commande pour la visite du {{visit.visiteDate|date("d/m/Y") }}
                     </th>
                 </tr>
             </thead>
             <tbody>
             <tr>
-                <td>Numéro de commande</td>
-                <td>{{ visit.bookingCode }}</td>
-                <td>&nbsp;</td>
+                <td >Billet n°</td>
+                <td>Visiteur</td>
+                <td>Date de naissance</td>
+                <td>Prix du billet</td>
             </tr>
+            {% for ticket in visit.tickets %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ ticket.firstname }} {{ ticket.lastname }} </td>
+                <td>{{ ticket.birthdate| date('d/m/Y')}}</td>
+                <td>{{ ticket.price }} €</td>
+            </tr>
+            {% endfor %}
             <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
             </tr>
-            <tr>
-                <td>Date de la visite</td>
-                <td>Nombre de billets</td>
-                <td>Montant</td>
-            </tr>
-            <tr>
-                <td>{{ visit.visiteDate|date("d/m/Y") }} </td>
-                <td>{{ visit.nbTicket }}</td>
-                <td>{{ visit.totalAmount }} €</td>
-            </tr>
-
             </tbody>
         </table>
     </div>
@@ -53,17 +51,11 @@
             <thead>
             <thead>
             <tr>
-                <th>
+                <th colspan="4">
                     Détails de la facturation
                 </th>
             </tr>
-
             <tbody>
-            <tr>
-                <td>&nbsp;</td>
-                <td >&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
             <tr>
                 <td>Nom :</td>
                 <td>{{ visit.customer.lastname }}</td>
@@ -94,6 +86,7 @@
                 <td>{{ visit.totalAmount }} €</td>
                 <td></td>
             </tr>
+
             </tbody>
         </table>
     </div>

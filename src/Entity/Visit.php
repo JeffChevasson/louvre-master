@@ -14,7 +14,8 @@ use App\Validator\Constraints as LouvreAssert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  * @ORM\Table(name="visit")
-
+ * @LouvreAssert\LimitedReservation(hour=14)
+ *
  */
 
 
@@ -30,6 +31,7 @@ class Visit
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
+     *
      *
      */
     private $id;
@@ -48,7 +50,10 @@ class Visit
      *     max = "+1 year",
      *     minMessage = "Vous devez choisir une date de visite supérieure ou égale à la date du jour",
      *     maxMessage = "La réservation est uniquement sur l'année en cours")
-     *
+     * @LouvreAssert\NoReservationOnPublicHolidays()
+     * @LouvreAssert\NoReservationOnDay(day="0")
+     * @LouvreAssert\NoReservationOnDay(day="2")
+     * @LouvreAssert\ToLateForToday(hour=16)
      * @Assert\DateTime()
 
      */
@@ -57,6 +62,7 @@ class Visit
     /**
      * @ORM\Column(name="type", type="integer")
      * @Assert\NotBlank
+     *
 
      */
     private $type;

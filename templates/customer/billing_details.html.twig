@@ -7,21 +7,19 @@
 
 {% block body %}
     <div class="jumbotron">
-
-        <div class="table-responsive">
+        <div class="table-responsive-lg">
             <table class="table">
-                    {{ form_start(form) }}
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                {% for fcustomer in form.customer %}
 
-                    {{ form_row(form) }}
-
-                        <br>
-                        <br>
-
-                    <input type="submit" class="btn btn btn-primary" value="Procédez au paiement">
-
-                    {{ form_end(form) }}
+                    {{ form_widget(fcustomer) }}
+                    <hr>
+                {% endfor %}
+                <input type="submit" class="btn btn btn-primary" value="Suivant">
+                {{ form_end(form) }}
             </table>
         </div>
-
     </div>
+
 {% endblock %}

@@ -15,9 +15,7 @@ class NoReservationOnDay extends Constraint
 {
     public $day;
 
-
-
-    public function getRequiredOptions()
+   public function getRequiredOptions()
     {
         return [
             'day'
@@ -26,10 +24,7 @@ class NoReservationOnDay extends Constraint
 
     public function getMessage()
     {
-        return 'Il n\' est pas possible de réserver un billet sur la journée de dimanche';
+        return 'Il n\' est pas possible de réserver un billet sur un jour de fermeture du musée';
     }
-    public function getTargets()
-    {
-        return self::CLASS_CONSTRAINT;
-    }
+
 }

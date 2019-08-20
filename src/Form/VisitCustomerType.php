@@ -17,19 +17,23 @@ class VisitCustomerType extends  AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('customer', CollectionType::class,[
-                'entry_type' => CustomerType::class
-
-            ])
+            ->add('customer', CustomerType::class
+                //[
+                //'label' => null,
+               // 'entry_options'=> [
+                //    'label' =>null
+                //]
+               // 'entry_type' => CustomerType::class,
+               // 'by_reference' =>false
+            )
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Visit::class
-
-
+            'data_class' => Visit::class,
+            'label' => null
         ]);
     }
 }
