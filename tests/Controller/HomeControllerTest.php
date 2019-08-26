@@ -2,16 +2,8 @@
 
 
 namespace App\Tests\Controller;
-use App\Entity\Visit;
+
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\HttpKernel\Client;
-use Symfony\Component\BrowserKit\Request;
-use Symfony\Component\DomCrawler\Link;
-
-
-
-
 
 class HomeControllerTest extends WebTestCase
 {
