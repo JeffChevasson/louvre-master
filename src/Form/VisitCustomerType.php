@@ -17,16 +17,9 @@ class VisitCustomerType extends  AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('customer', CustomerType::class
-                //[
-                //'label' => null,
-               // 'entry_options'=> [
-                //    'label' =>null
-                //]
-               // 'entry_type' => CustomerType::class,
-               // 'by_reference' =>false
-            )
-        ;
+            ->add('customer', CustomerType::class,[
+        'label' => null
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

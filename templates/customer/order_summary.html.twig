@@ -28,6 +28,8 @@
                 <td>Visiteur</td>
                 <td>Date de naissance</td>
                 <td>Prix du billet</td>
+                <td>Remise</td>
+                <td>Pays</td>
             </tr>
             {% for ticket in visit.tickets %}
             <tr>
@@ -35,6 +37,8 @@
                 <td>{{ ticket.firstname }} {{ ticket.lastname }} </td>
                 <td>{{ ticket.birthdate| date('d/m/Y')}}</td>
                 <td>{{ ticket.price }} €</td>
+                <td>{{ boolean ? 'Non' : 'Oui' }}</td>
+                <td>{{ ticket.country }}</td>
             </tr>
             {% endfor %}
             <tr>

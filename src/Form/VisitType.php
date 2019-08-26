@@ -33,7 +33,7 @@ class VisitType extends AbstractType
                 'multiple' => false,
                 'required' => true
             ])
-            ->add('nbticket', ChoiceType::class, [
+            ->add('nbTicket', ChoiceType::class, [
                 'choices' => array_combine(\range(1,20), \range(1,20)),
                 'label' => 'Nombre de billets :',
                 'required' => true

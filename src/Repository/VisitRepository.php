@@ -34,10 +34,10 @@ class VisitRepository extends ServiceEntityRepository
             ->setParameter('visiteDate', $visitDate);
         return $qb
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getSingleScalarResult() ?? 0;
     }
 
-    // /**
+    // /*
     //  * @return Visit[] Returns an array of Visit objects
     //  */
     /*

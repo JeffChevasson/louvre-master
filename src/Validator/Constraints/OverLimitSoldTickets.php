@@ -24,7 +24,7 @@ class OverLimitSoldTickets extends Constraint
 
     public function getMessage()
     {
-        return 'Il n\' y a plus de billet disponible à cette date';
+        return 'PLus suffisamment de place : %%TZIGHIO%%';
     }
 
     public function getTargets()

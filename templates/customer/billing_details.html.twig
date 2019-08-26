@@ -4,22 +4,27 @@
     Identification des visiteurs
 {% endblock %}
 
+{% form_theme form with [
+    'bootstrap_4_layout.html.twig'
+] %}
 
 {% block body %}
     <div class="jumbotron">
-        <div class="table-responsive-lg">
-            <table class="table">
+        <div class="jumbotron">
+            <h2>Saisissez les informations de facturation</h2>
+        </div>
+
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
                 {% for fcustomer in form.customer %}
-
+                    {{ form_label(fcustomer) }}
                     {{ form_widget(fcustomer) }}
-                    <hr>
                 {% endfor %}
+                <br>
+                <br>
                 <input type="submit" class="btn btn btn-primary" value="Suivant">
                 {{ form_end(form) }}
-            </table>
-        </div>
+
     </div>
 
 {% endblock %}

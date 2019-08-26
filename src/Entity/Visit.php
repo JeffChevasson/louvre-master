@@ -14,7 +14,8 @@ use App\Validator\Constraints as LouvreAssert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  * @ORM\Table(name="visit")
- * @LouvreAssert\LimitedReservation(hour=14)
+ * @LouvreAssert\LimitedReservation(hour=14, groups={"init"})
+ * @LouvreAssert\OverLimitSoldTickets(nbTicketsByDay=Visit::NB_TICKET_MAX_DAY, groups={"init"})
  *
  */
 
@@ -104,6 +105,7 @@ class Visit
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Ticket", mappedBy="visit",cascade={"persist"})
+     * @Assert\Valid()
 
      *
      */
@@ -155,9 +157,9 @@ class Visit
         return $this->nbTicket;
     }
 
-    public function setNbTicket(int $nbticket): self
+    public function setNbTicket(int $nbTickets): self
     {
-        $this->nbTicket = $nbticket;
+        $this->nbTicket = $nbTickets;
 
         return $this;
     }

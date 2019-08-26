@@ -50,10 +50,12 @@ class OverLimitSoldTicketsValidator extends ConstraintValidator
         $visitDate = $value->getVisiteDate ();
 
         $total = $this->visitRepository->countNbTicketsOnThisDate($visitDate);
+        dump($total, $constraint->nbTicketsByDay);
 
         if ($total + $value->getNbTicket () > $constraint->nbTicketsByDay)
         {
             $this->context->buildViolation ($constraint->getMessage ())
+                ->setParameter ("%%TZIGHIO%%", $constraint->nbTicketsByDay - $total)
                 ->atPath ('nbTicket')
                 ->addViolation ();
         }

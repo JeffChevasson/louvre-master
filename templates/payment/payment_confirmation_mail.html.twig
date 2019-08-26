@@ -63,6 +63,8 @@
                                                 au nom de {{ ticket.lastname }} {{ ticket.firstname }}<br/>
                                                 date de naissance : {{ ticket.birthdate| date('d/m/Y')}}<br/>
                                                 prix du billet : {{ ticket.price }} euros<br/><br/>
+                                                Remise : {{  boolean ? 'Non' : 'Oui' }}
+                                                Pays : {{ ticket.country }}
 
                                             {% endfor %}
                                         </td>

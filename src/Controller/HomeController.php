@@ -62,7 +62,7 @@ class HomeController extends AbstractController
         if ($form->isSubmitted () && $form->isValid ()) //on compte le nombre de tickets
         {
             $visit = $form->getData ();
-            for ($i = 1; $i <= $visit->getNbticket (); $i++) {
+            for ($i = 1; $i <= $visit->getNbTicket (); $i++) {
                 $visit->addTicket (new Ticket());
             }
 
@@ -123,12 +123,8 @@ class HomeController extends AbstractController
      */
     public function customerAction(Request $request, VisitManager $visitManager): Response
     {
-
-        //On crée un nouvel objet Customer
-        //$customer = new Customer();
         //On appelle l'objet Visit
         $visit = $visitManager->getCurrentVisit();
-        //$visit->setCustomer ($customer);
 
         //A partir du formulaire on le génère
         $form = $this->createForm (VisitCustomerType::class, $visit);
