@@ -28,25 +28,25 @@ INSTALLATION
     $ git clone 
   ```
  * Go to "louvre-master" file: 
- ```bash 
+   ```bash 
     $ cd louvre-master
- ```
+  ```
 * Get dependancies with Composer: 
-```bash
+  ```bash
     $ composer install (windows)or $ composer.phar install (Mac)
-```
+  ```
 * Create the database: 
-```bash
+  ```bash
     $ php bin/console doctrine:database:create
-```
+  ```
 * Update database : 
-```bash
+  ```bash
     $ php bin/console doctrine:schema:update --force
-```
+  ```
 * Run the project : 
-```bash
+  ```bash
     $ php bin/console server:run
-```
+  ```
 
 Enjoy !!!
 ---------
