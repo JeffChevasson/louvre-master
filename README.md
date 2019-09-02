@@ -1,6 +1,8 @@
 PROJET 4
 ========
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f5328ccd2d3f4a2bbfe52209675ba959)](https://app.codacy.com/app/JeffChevasson/louvre-master?utm_source=github.com&utm_medium=referral&utm_content=JeffChevasson/louvre-master&utm_campaign=Badge_Grade_Dashboard)
+
 "Projet 4" is a Symfony project created between June and August 2019. It's my fourth project with Openclassrooms.
 
 The project’s target is to create the ticketing of Louvre Museum.
