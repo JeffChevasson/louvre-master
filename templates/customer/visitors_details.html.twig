@@ -19,7 +19,12 @@
 
             {% for fticket in form.tickets %}
                 <strong>Ticket n° {{ loop.index }}</strong>
-                {{ form_widget(fticket) }}
+                {{ form_row(fticket.firstname) }}
+                {{ form_row(fticket.lastname) }}
+                {{ form_row(fticket.country) }}
+                {{ form_row(fticket.birthdate) }}
+                {{ form_errors(fticket.discount) }}
+                {{ form_widget(fticket.discount) }}
                 <hr>
             {% endfor %}
 

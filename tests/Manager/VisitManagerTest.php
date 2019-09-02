@@ -6,6 +6,7 @@ namespace App\Tests\Manager;
 use App\Entity\Visit;
 use App\Entity\Ticket;
 use App\Manager\VisitManager;
+use App\Services\PriceCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -37,10 +38,11 @@ class VisitManagerTest extends TestCase
         $emailService = $this->getMockBuilder('App\Services\EmailService')
             ->disableOriginalConstructor()
             ->getMock();
+
         $EntityManagerInterface = $this->getMockBuilder ('Doctrine\ORM\EntityManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $visitManager = new VisitManager( $session, $publicHolidaysService, $validator, $emailService, $EntityManagerInterface);
+        $visitManager = new VisitManager( $session, $publicHolidaysService, $validator, $emailService, $EntityManagerInterface, new PriceCalculator());
         return $visitManager;
     }
 
@@ -73,9 +75,9 @@ class VisitManagerTest extends TestCase
         $visit->setType ( $type );
         $tickets = array(
             $this->createTicket ( "26-02-1975", 0 ), // 16
-            $this->createTicket ( "26-02-1975", 1 ), // 10
+            $this->createTicket ( "26-02-1975", 1 ), // 8
             $this->createTicket ( "03-11-1950", 0 ), // 12
-            $this->createTicket ( "03-11-1950", 1 ), // 12 no discount for senior
+            $this->createTicket ( "03-11-1950", 1 ), // 12
             $this->createTicket ( "26-11-2010", 0 ), // 8
             $this->createTicket ( "30-09-2017", 0 ) // 0
         );
@@ -93,17 +95,8 @@ class VisitManagerTest extends TestCase
         $visitManager = $this->VisitManagerAndDependenciesMocks();
         $visit = $this->createOneVisitOnFullDay();
         $price = $visitManager->computePrice($visit);
-        $this->assertSame(58, $price);
+        $this->assertSame(56, $price);
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function testComputeTicketPrice()
-    {
-        $visitManager = $this->VisitManagerAndDependenciesMocks();
-        $visit = $this->createOneVisitForSenior();
-        $price = $visitManager->computeTicketPrice($visit->getTickets()->first());
-        $this->assertSame(12, $price);
-    }
+
 }

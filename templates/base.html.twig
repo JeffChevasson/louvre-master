@@ -21,7 +21,10 @@
 
     <!-- Custom styles for this template -->
     <link href="css/grayscale.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
+
+{% endblock %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">
             <img src="{{ asset('img/louvre_icon.jpg') }}" width="48" height="48" alt="">
@@ -48,8 +51,6 @@
             </div>
         </div>
     </nav>
-
-{% endblock %}
     <br>
     {% for label,messages in app.flashes %}
         {% for message in messages %}

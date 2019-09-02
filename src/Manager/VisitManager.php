@@ -5,6 +5,7 @@ namespace App\Manager;
 
 use App\Entity\Prices;
 use App\Services\EmailService;
+use App\Services\PriceCalculator;
 use App\Services\PublicHolidaysService;
 use App\Entity\Ticket;
 use App\Entity\Visit;
@@ -34,15 +35,20 @@ class VisitManager
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var PriceCalculator
+     */
+    private $priceCalculator;
 
     public function __construct(SessionInterface $session, PublicHolidaysService $publicHolidaysService, ValidatorInterface $validator,
-                                EmailService $emailService, EntityManagerInterface $entityManager)
+                                EmailService $emailService, EntityManagerInterface $entityManager, PriceCalculator $priceCalculator)
     {
         $this->session = $session;
         $this->publicHolidaysService = $publicHolidaysService;
         $this->validator = $validator;
         $this->emailService = $emailService;
         $this->entityManager = $entityManager;
+        $this->priceCalculator = $priceCalculator;
     }
     /**
      * Page 2
@@ -106,65 +112,6 @@ class VisitManager
 
     }
 
-    public function computeTicketPrice(Ticket $ticket)
-    {
-        $price = 0;
-        $birthday = $ticket->getBirthdate();
-        $visit = $ticket->getVisit();
-        $today = new DateTime();
-        $age = date_diff($birthday, $today)->y;
-        $discount = $ticket->getDiscount();
-
-        if ($visit->getType() == Visit::TYPE_FULL_DAY)
-        {
-            if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR)
-                {
-                    $price = Prices::FULL_DAY_PRICE;
-                    if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR && $discount == true)
-                    {
-                        $price = Prices::FULL_DAY_DISCOUNT;
-                    }
-                }
-            elseif ($age >= Prices::MIN_AGE_SENIOR)
-                {
-                    $price = Prices::FULL_DAY_SENIOR;
-                }
-            elseif ($age >= Prices::MIN_AGE_CHILD && $age < Prices::MAX_AGE_CHILD)
-                {
-                    $price = Prices::FULL_DAY_CHILD;
-                }
-            else
-                {
-                $price = Prices::FREE_TICKET;
-                }
-        }
-        elseif ($visit->getType() == Visit::TYPE_HALF_DAY)
-            {
-                if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR)
-                    {
-                        $price = Prices::HALF_DAY_PRICE;
-                        if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR && $discount == true)
-                        {
-                            $price = Prices::HALF_DAY_DISCOUNT;
-                        }
-                    }
-                elseif ($age >= Prices::MIN_AGE_SENIOR)
-                    {
-                        $price = Prices::HALF_DAY_SENIOR;
-                    }
-                elseif ($age >= Prices::MIN_AGE_CHILD && $age < Prices::MAX_AGE_CHILD)
-                    {
-                        $price = Prices::HALF_DAY_CHILD;
-                    }
-                else
-                    {
-                        $price = Prices::FREE_TICKET;
-                    }
-            }
-        $ticket->setPrice($price);
-
-        return $price;
-    }
 
     /**
      * @param Visit $visit
@@ -177,7 +124,8 @@ class VisitManager
 
         foreach ($visit->getTickets() as $ticket)
             {
-                $priceTicket = $this->computeTicketPrice($ticket);
+                $priceTicket = $this->priceCalculator->computeTicketPrice($ticket);
+                dump($priceTicket);
                 $totalAmount += $priceTicket;
             }
         $visit->setTotalAmount($totalAmount);

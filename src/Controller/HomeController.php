@@ -168,7 +168,8 @@ class HomeController extends AbstractController
                 $this->addFlash ('warning', 'Paiement échoué');
             }
         }
-        return new Response($this->renderView ('payment/payment.html.twig'));
+
+        return $this->render ('payment/payment.html.twig', ['visit'=> $visit]);
     }
     /**
      * page 7 confirmation

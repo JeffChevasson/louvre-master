@@ -24,56 +24,29 @@ class PriceCalculator
         $age = date_diff($birthday, $today)->y;
         $discount = $ticket->getDiscount();
 
-        if ($visit->getType() == Visit::TYPE_FULL_DAY)
-        {
-            if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR)
-                {
-                    $price = Prices::FULL_DAY_PRICE;
-                    if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR && $discount == true)
-                        {
-                            $price = Prices::FULL_DAY_DISCOUNT;
-                        }
-                }
-            elseif ($age >= Prices::MIN_AGE_SENIOR)
-                {
-                    $price = Prices::FULL_DAY_SENIOR;
-                }
-            elseif ($age >= Prices::MIN_AGE_CHILD && $age < Prices::MAX_AGE_CHILD)
-                {
-                    $price = Prices::FULL_DAY_CHILD;
-                }
-            else
-                {
-                    $price = Prices::FREE_TICKET;
-                }
+
+        if($age < Prices::AGE_CHILD){
+            $price = Prices::PRICE_FREE;
+        }elseif ($age < Prices::AGE_ADULT){
+            $price = Prices::PRICE_CHILD;
+        }elseif ($age < Prices::AGE_SENIOR){
+            $price = Prices::PRICE_ADULT;
+        }else{
+            $price = Prices::PRICE_SENIOR;
         }
-        elseif ($visit->getType() == Visit::TYPE_HALF_DAY)
-        {
-            if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR)
-                {
-                    $price = Prices::HALF_DAY_PRICE;
-                    if ($age >= Prices::MAX_AGE_CHILD && $age < Prices::MIN_AGE_SENIOR && $discount == true)
-                        {
-                            $price = Prices::HALF_DAY_DISCOUNT;
-                        }
-                }
-            elseif ($age >= Prices::MIN_AGE_SENIOR)
-                {
-                    $price = Prices::HALF_DAY_SENIOR;
-                }
-            elseif ($age >= Prices::MIN_AGE_CHILD && $age < Prices::MAX_AGE_CHILD)
-                {
-                    $price = Prices::HALF_DAY_CHILD;
-                }
-            else
-                {
-                    $price = Prices::FREE_TICKET;
-                }
+
+        if($discount && $price > Prices::PRICE_REDUCE){
+            $price = Prices::PRICE_REDUCE;
         }
+
+
+        if ($visit->getType() == Visit::TYPE_HALF_DAY){
+            $price *= Prices::HALF_DAY_COEFF;
+        }
+
         $ticket->setPrice($price);
 
         return $price;
-
     }
 
     /**
