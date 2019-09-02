@@ -29,23 +29,23 @@ INSTALLATION
   ```
  * Go to "louvre-master" file: 
  ```bash 
- $ cd louvre-master
+  $ cd louvre-master
  ```
 * Get dependancies with Composer: 
 ```bash
-$ composer install (windows)or $ composer.phar install (Mac)
+ $ composer install (windows)or $ composer.phar install (Mac)
 ```
 * Create the database: 
 ```bash
-$ php bin/console doctrine:database:create
+ $ php bin/console doctrine:database:create
 ```
 * Update database : 
 ```bash
-$ php bin/console doctrine:schema:update --force
+ $ php bin/console doctrine:schema:update --force
 ```
 * Run the project : 
 ```bash
-$ php bin/console server:run
+ $ php bin/console server:run
 ```
 
 Enjoy !!!
