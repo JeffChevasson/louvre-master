@@ -28,7 +28,7 @@ INSTALLATION
     $ git clone 
   ```
  * Go to "louvre-master" file: 
-   ```bash 
+  ```bash 
     $ cd louvre-master
   ```
 * Get dependancies with Composer: 
