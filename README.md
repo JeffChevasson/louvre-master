@@ -27,10 +27,10 @@ INSTALLATION
   ```bash 
     $ git clone 
   ```
- * Go to "louvre-master" file: 
-  ```bash 
-    $ cd louvre-master
-  ```
+ * Go to "louvre-master" file:
+       ```bash 
+        $ cd louvre-master
+       ```
 * Get dependancies with Composer: 
   ```bash
     $ composer install (windows)or $ composer.phar install (Mac)
