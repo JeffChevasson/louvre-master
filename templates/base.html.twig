@@ -23,43 +23,29 @@
     <link href="css/grayscale.min.css" rel="stylesheet">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('home') }}">Accueil <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('tickets') }}">billets</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('visitors') }}">visiteurs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('billing_details') }}">facturation</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('order_summary') }}">récap</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('payment') }}">paiement</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('payment_confirmation') }}">confirmation de paiement</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('contact') }}">contact</a>
-                </li>
-
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('img/louvre_icon.jpg') }}" width="48" height="48" alt="">
+        </a>
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="{{ path('home') }}">Accueil</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ path('tickets') }}">Billets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#informations">information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{{ path('contact') }}">Contact</a>
+                    </li>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -78,14 +64,51 @@
 
             {% endblock %}
     </div>
-
-    <footer>
-
-        <div class="container">
-            <p>Copyright musée du Louvre 2019</p>
+<footer class="section footer-classic context-dark bg-image mt-4" style="background: #64A19D;">
+    <div class="container">
+        <div class="row row-30">
+            <div class="col-md-4 col-xl-5">
+                <div class="pr-xl-4"><a class="brand" href="index.html"><img class="brand-logo-light" src="images/agency/logo-inverse-140x37.png" alt="" width="140" height="37" srcset="images/agency/logo-retina-inverse-280x74.png 2x"></a>
+                    <p>Vous pouvez nous suivre sur les différents réseaux sociaux et être informé des dernières nouveautés du musée du Louvre en temps réel.</p>
+                    <!-- Rights-->
+                    <p class="rights"><span>©  </span><span class="copyright-year">2019</span><span> </span><span>Musée du Louvre</span><span>. </span><span>Tous droits réservés.</span></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h5>Contacts</h5>
+                <dl class="contact-list">
+                    <dt>adresse :</dt>
+                    <dd>Rue de Rivoli 75001 Paris</dd>
+                </dl>
+                <dl class="contact-list">
+                    <dt>email:</dt>
+                    <dd><a href="mailto:#">info@louvre.f</a></dd>
+                </dl>
+                <dl class="contact-list">
+                    <dt>Téléphone :</dt>
+                    <dd><a href="tel:#">01 40 20 50 50</a> <span>or</span> <a href="tel:#">01 40 20 53 17</a>
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-4 col-xl-3">
+                <h5>Liens</h5>
+                <ul class="nav-list">
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Informations</a></li>
+                    <li><a href="#">Billetterie</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+            </div>
         </div>
-    
-    </footer>
+    </div>
+    <div class="row no-gutters social-container">
+        <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-facebook"></span><span>Facebook</span></a></div>
+        <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-instagram"></span><span>instagram</span></a></div>
+        <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-twitter"></span><span>twitter</span></a></div>
+        <div class="col"><a class="social-inner" href="#"><span class="icon mdi mdi-youtube-play"></span><span>google</span></a></div>
+    </div>
+</footer>
+
 
 {% block javascripts %}
 
@@ -96,6 +119,7 @@
 
     <!-- Custom scripts for this template -->
     <script src="js/grayscale.min.js"></script>
+
 {% endblock %}
 
 </body>

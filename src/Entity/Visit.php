@@ -39,7 +39,6 @@ class Visit
 
     /**
      * @ORM\Column(name="invoicedate", type="datetime")
-     * @Assert\DateTime()
      */
     private $invoiceDate;
 
@@ -55,8 +54,6 @@ class Visit
      * @LouvreAssert\NoReservationOnDay(day="0")
      * @LouvreAssert\NoReservationOnDay(day="2")
      * @LouvreAssert\ToLateForToday(hour=16)
-     * @Assert\DateTime()
-
      */
     private $visiteDate;
 

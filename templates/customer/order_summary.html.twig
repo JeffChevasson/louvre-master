@@ -37,7 +37,7 @@
                 <td>{{ ticket.firstname }} {{ ticket.lastname }} </td>
                 <td>{{ ticket.birthdate| date('d/m/Y')}}</td>
                 <td>{{ ticket.price }} €</td>
-                <td>{{ boolean ? 'Non' : 'Oui' }}</td>
+                <td>{{ ticket.discount ? 'Oui' : 'Non' }}</td>
                 <td>{{ ticket.country }}</td>
             </tr>
             {% endfor %}

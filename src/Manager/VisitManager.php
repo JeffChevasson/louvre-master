@@ -10,6 +10,7 @@ use App\Entity\Ticket;
 use App\Entity\Visit;
 use App\Exception\InvalidVisitSessionException;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -29,13 +30,19 @@ class VisitManager
     private $publicHolidaysService;
     private $validator;
     private $emailService;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
     public function __construct(SessionInterface $session, PublicHolidaysService $publicHolidaysService, ValidatorInterface $validator,
-                                EmailService $emailService)
+                                EmailService $emailService, EntityManagerInterface $entityManager)
     {
         $this->session = $session;
         $this->publicHolidaysService = $publicHolidaysService;
         $this->validator = $validator;
         $this->emailService = $emailService;
+        $this->entityManager = $entityManager;
     }
     /**
      * Page 2
@@ -91,6 +98,12 @@ class VisitManager
             throw new InvalidVisitSessionException("Commande invalide.");
         }
         return $visit;
+    }
+
+    public function cleanCurrentVisit()
+    {
+        $this->session->remove (self::SESSION_ID_CURRENT_VISIT);
+
     }
 
     public function computeTicketPrice(Ticket $ticket)
@@ -178,11 +191,14 @@ class VisitManager
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function generateBookingCodeWithEmail(Visit $visit)
+    public function postPaymentAction(Visit $visit)
     {
         $bookingCode = md5(uniqid(rand(), true));
         $visit->setBookingCode($bookingCode);
         $this->emailService->sendMailConfirmation($visit);
+
+        $this->entityManager->persist ($visit);
+        $this->entityManager->flush ();
         return $visit;
     }
 
@@ -200,5 +216,15 @@ class VisitManager
         catch (RuntimeError $e) {}
         catch (SyntaxError $e) {}
     }
+
+    public function generateEmptyTickets(Visit $visit)
+    {
+
+        for ($i = 1; $i <= $visit->getNbTicket (); $i++)
+        {
+            $visit->addTicket (new Ticket());
+        }
+    }
+
 
 }

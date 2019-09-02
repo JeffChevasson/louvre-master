@@ -47,7 +47,6 @@ class Ticket
     /**
      * @ORM\Column(name="birthdate", type="datetime")
      * @Assert\LessThan("today")
-     * @Assert\Date()
      */
     private $birthdate;
 

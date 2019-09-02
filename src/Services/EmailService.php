@@ -47,8 +47,12 @@ class EmailService
             ->setSubject('votre commande')
             ->setFrom($this->emailfrom)
             ->setTo($email);
-        $message->setBody($this->templating->render('payment/payment_confirmation_mail.html.twig', [
-            'visit' => $visit
+
+        $cid = $message->embed(\Swift_Image::fromPath ('img/logo_musee_du_louvre.jpg'));
+
+        $message->setBody ($this->templating->render('payment/payment_confirmation_mail.html.twig', [
+            'visit' => $visit,
+            'cid' => $cid
             ]));
         return $this->mailer->send($message);
     }

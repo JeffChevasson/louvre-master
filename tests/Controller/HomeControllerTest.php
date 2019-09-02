@@ -22,7 +22,7 @@ class HomeControllerTest extends WebTestCase
 
     public function urls(){
         return [
-            ['/', 'GET', 301],
+            ['/', 'GET', 200],
             ['/testdummy', 'GET' , 404 ],
             ['/contact', 'GET' , 200],
             ['/contact', 'POST' , 200],
@@ -32,7 +32,7 @@ class HomeControllerTest extends WebTestCase
             ['/recapitulatif_de_la_commande', 'GET' , 302],
             ['/paiement', 'GET' , 302],
             ['/confirmation_du_paiement', 'GET' , 302 ],
-            ['/rgpd', 'GET', 301],
+            ['/rgpd', 'GET', 200],
         ];
     }
     /**
@@ -72,23 +72,15 @@ class HomeControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        // index.html.twig
-        $crawler = $client->request('GET', '/');
-        $link = $crawler
-            ->filter('selectLink("Achat de billets")')
-            ->link()
-        ;
-        $crawler = $client->click($link);
-        $this->assertEquals('App\Controller\HomeController::orderAction',
-            $client->getRequest()->attributes->get('_controller'));
+        $crawler = $client->request('GET', '/billets');
 
-        // tickets.html.twig
         $form = $crawler->selectButton('Valider')->form();
-        $form['App_visit[visitDate]'] = date('2019-12-12');
-        $form['App_visit[type]'] = 0;
-        $form['App_visit[nbTicket]'] = 1;
+        $form['visit[visitedate]'] = '2019-12-12';
+        $form['visit[type]'] = 1;
+        $form['visit[nbTicket]'] = 1;
         $client->submit($form);
-        $client->followRedirect();
+
+        $crawler = $client->followRedirect();
         $this->assertEquals('App\Controller\HomeController::identifyAction',
             $client->getRequest()->attributes->get('_controller'));
 
@@ -97,27 +89,32 @@ class HomeControllerTest extends WebTestCase
         $values = $form->getPhpValues();
         $values['visit_tickets']['tickets'][0]['lastname'] = "Doe";
         $values['visit_tickets']['tickets'][0]['firstname'] = "John";
-        $values['visit_tickets']['tickets'][0]['country'] = "France";
-        $values['visit_tickets']['tickets'][0]['birthday']['day'] = 26;
-        $values['visit_tickets']['tickets'][0]['birthday']['month'] = 2;
-        $values['visit_tickets']['tickets'][0]['birthday']['year'] = 1975;
+        $values['visit_tickets']['tickets'][0]['country'] = "FR";
+        $values['visit_tickets']['tickets'][0]['birthdate']['day'] = 26;
+        $values['visit_tickets']['tickets'][0]['birthdate']['month'] = 2;
+        $values['visit_tickets']['tickets'][0]['birthdate']['year'] = 1975;
         $values['visit_tickets']['tickets'][0]['discount'] = 0;
+
         $client->request('POST', $form->getUri(), $values,
             $form->getPhpFiles());
+
+        $crawler = $client->followRedirect();
+
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), $client->getResponse()->getContent());
 
         // billing_details.html.twig
-        $form = $crawler->selectButton('Validez')->form();
+        $form = $crawler->selectButton('Suivant')->form();
         $values = $form->getPhpValues();
         $values['app_bundle_visit_customer_type']['customer']['lastname'] = "Doe";
         $values['app_bundle_visit_customer_type']['customer']['firstname'] = "John";
         $values['app_bundle_visit_customer_type']['customer']['email'] = "john.doe@gmail.com";
-        $values['app_bundle_visit_customer_type']['customer']['adress'] = "15 rue du test";
+        $values['app_bundle_visit_customer_type']['customer']['address'] = "15 rue du test";
         $values['app_bundle_visit_customer_type']['customer']['postCode'] = "77250";
         $values['app_bundle_visit_customer_type']['customer']['city'] = "Moret sur Loing";
         $values['app_bundle_visit_customer_type']['customer']['country'] = "France";
         $client->request('POST', $form->getUri(), $values,
             $form->getPhpFiles());
+        $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode(), $client->getResponse()->getContent());
     }
 

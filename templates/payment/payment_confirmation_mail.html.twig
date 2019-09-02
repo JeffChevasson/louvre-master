@@ -23,7 +23,8 @@
                                 <table width="100%" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td align="center" style="text-align: center; padding-bottom: 20px;">
-                                            <img src="{{ img }}" width="300" border="0" alt="logo_du_louvre">
+
+                                            <img src="{{ cid }}" width="300" border="0" alt="logo_du_louvre">
                                         </td>
                                     </tr>
                                     <tr>
@@ -33,7 +34,7 @@
                                     </tr>
                                     <tr>
                                         <td data-min="10" data-max="26" align="left" style="font:16px Arial, Helvetica, sans-serif; color:#000000; padding:0 0 23px;">
-                                            Bonjour {{ visit.customer.lastname }} {{ visit.customer.firstname }},<br/><br/>
+                                            Bonjour {{ visit.customer.firstname }} {{ visit.customer.lastname }},<br/><br/>
 
                                             Vous venez d'effectuer une commande en ligne sur la billetterie du Louvre. Nous vous en remercions.<br/><br/>
                                             Vous trouverez ci-dessous le récapitulatif de vos achats.
@@ -62,9 +63,9 @@
                                                 <strong>Billet n° {{ loop.index }}</strong><br/>
                                                 au nom de {{ ticket.lastname }} {{ ticket.firstname }}<br/>
                                                 date de naissance : {{ ticket.birthdate| date('d/m/Y')}}<br/>
-                                                prix du billet : {{ ticket.price }} euros<br/><br/>
-                                                Remise : {{  boolean ? 'Non' : 'Oui' }}
-                                                Pays : {{ ticket.country }}
+                                                prix du billet : {{ ticket.price }} euros<br/>
+                                                Remise : {{  ticket.discount ? 'Oui' : 'Non' }}<br/>
+                                                Pays : {{ ticket.country }}<br/><br/>
 
                                             {% endfor %}
                                         </td>
