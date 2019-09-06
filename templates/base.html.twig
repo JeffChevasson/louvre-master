@@ -41,7 +41,7 @@
                         <a class="nav-link js-scroll-trigger" href="{{ path('tickets') }}">Billets</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#informations">information</a>
+                        <a class="nav-link js-scroll-trigger" href="#informations">Information</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="{{ path('contact') }}">Contact</a>
@@ -94,10 +94,11 @@
             <div class="col-md-4 col-xl-3">
                 <h5>Liens</h5>
                 <ul class="nav-list">
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="#">Informations</a></li>
-                    <li><a href="#">Billetterie</a></li>
-                    <li><a href="#">Contacts</a></li>
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li><a href="#informations">Informations</a></li>
+                    <li><a href="{{ path('tickets') }}">Billetterie</a></li>
+                    <li><a href="{{ path ('contact') }}">Contacts</a></li>
+                    <li><a href="{{ path('legal') }}">Mentions légales</a></li>
                 </ul>
             </div>
         </div>

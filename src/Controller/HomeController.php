@@ -193,12 +193,12 @@ class HomeController extends AbstractController
   }
 
     /**
-     * page 9 RGPD
-     * @Route("/rgpd", name="rgpd")
+     * page 9 Mentions légales
+     * @Route("/legal", name="legal")
      * @return Response
      */
-    public function rgpdAction(): Response
+    public function legalAction(): Response
     {
-        return $this->render ('information/rgpd.html.twig');
+        return $this->render ( 'information/legal.html.twig' );
     }
 }
