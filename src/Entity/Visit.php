@@ -46,20 +46,21 @@ class Visit
      *
      * @ORM\Column(name="visitedate", type="datetime")
      * @Assert\Range(
+     *     groups={"init"},
      *     min = "today",
      *     max = "+1 year",
      *     minMessage = "Vous devez choisir une date de visite supérieure ou égale à la date du jour",
      *     maxMessage = "La réservation est uniquement sur l'année en cours")
-     * @LouvreAssert\NoReservationOnPublicHolidays()
-     * @LouvreAssert\NoReservationOnDay(day="0")
-     * @LouvreAssert\NoReservationOnDay(day="2")
-     * @LouvreAssert\ToLateForToday(hour=16)
+     * @LouvreAssert\NoReservationOnPublicHolidays(groups={"init"})
+     * @LouvreAssert\NoReservationOnDay(day="0", groups={"init"})
+     * @LouvreAssert\NoReservationOnDay(day="2", groups={"init"})
+     * @LouvreAssert\ToLateForToday(hour=16, groups={"init"})
      */
     private $visiteDate;
 
     /**
      * @ORM\Column(name="type", type="integer")
-     * @Assert\NotBlank
+     * @Assert\NotBlank(groups={"init"})
      *
 
      */
@@ -67,8 +68,9 @@ class Visit
 
     /**
      * @ORM\Column(name="nbticket", type="integer")
-     * @Assert\NotNull()
+     * @Assert\NotNull(groups={"init"})
      * @Assert\Range(
+     *      groups={"init"},
      *      min = 1,
      *      max = 20,
      *      minMessage = "vous devez saisir au moins 1 ticket",
@@ -86,7 +88,7 @@ class Visit
 
 
     /**
-     * @ORM\Column(name="bookingcode", type="integer", unique=true)
+     * @ORM\Column(name="bookingcode", type="string", unique=true)
      *
      */
     private $bookingCode;
@@ -94,6 +96,7 @@ class Visit
     /**
      * @ORM\ManyToOne(targetEntity="Customer", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      *
      */
     private $customer;
